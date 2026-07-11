@@ -1,0 +1,27 @@
+import cookieParser from "cookie-parser";
+import express, { type Application } from "express";
+import { authRoutes } from "./modules/auth/auth.route";
+import { bookingRoutes } from "./modules/bookings/bookings.route";
+import { categoryRoutes } from "./modules/categories/categories.route";
+import { paymentRoutes } from "./modules/payments/payments.route";
+import { serviceRoutes } from "./modules/services/services.route";
+import { reviewRoutes } from "./modules/reviews/reviews.route";
+import { technicianRoutes } from "./modules/technicians/technicians.route";
+import { adminRoutes } from "./modules/admin/admin.route";
+
+const app: Application = express();
+
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(cookieParser());
+
+app.use("/api", authRoutes);
+app.use("/api", bookingRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api", serviceRoutes);
+app.use("/api", reviewRoutes);
+app.use("/api", technicianRoutes);
+app.use("/api/admin", adminRoutes);
+
+export default app;
