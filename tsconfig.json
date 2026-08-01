@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
     "outDir": "./dist",
 
     // Environment Settings
@@ -18,6 +17,7 @@
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
 
     // Recommended Options
     "strict": true,
@@ -29,5 +29,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0"
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"] // exclude is not necessary if there is include
 }

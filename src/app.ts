@@ -8,6 +8,8 @@ import { serviceRoutes } from "./modules/services/services.route";
 import { reviewRoutes } from "./modules/reviews/reviews.route";
 import { technicianRoutes } from "./modules/technicians/technicians.route";
 import { adminRoutes } from "./modules/admin/admin.route";
+import { notFound } from "./middlewares/notFound";
+import { globalErrorHandler } from "./errors/globalErrorHandler";
 
 const app: Application = express();
 
@@ -15,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
 
-app.use("/api", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api", bookingRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api/payments", paymentRoutes);
@@ -24,4 +26,7 @@ app.use("/api", reviewRoutes);
 app.use("/api", technicianRoutes);
 app.use("/api/admin", adminRoutes);
 
+// 404 Not Found Middleware
+app.use(notFound);
+app.use(globalErrorHandler);
 export default app;
