@@ -1,45 +1,65 @@
 import type { ErrorRequestHandler } from "express";
 
-import { AppError } from "./AppError.js";
-
-import { handlePrismaError } from "./handlePrismaError.js";
+import { AppError } from "../errors/AppError.js";
 import { isPrismaError } from "./isPrismaError.js";
-import handleAppError from "./handleAppError.js";
-import handleGenericError from "./handleGenericError.js";
-import config from "../config/index.js";
+import { handlePrismaError } from "./handlePrismaError.js";
+import type { TErrorResponse } from "../types/error.types.js";
 
 export const globalErrorHandler: ErrorRequestHandler = (
   error,
-  req,
+  _req,
   res,
-  next,
+  _next,
 ) => {
-  let formattedError;
+  const isDevelopment = process.env.NODE_ENV === "development";
+
+  let formattedError: TErrorResponse;
 
   if (isPrismaError(error)) {
     formattedError = handlePrismaError(error);
   } else if (error instanceof AppError) {
-    formattedError = handleAppError(error);
+    formattedError = {
+      statusCode: error.statusCode,
+      message: error.message,
+      ...(error.stack ? { stack: error.stack } : {}),
+    };
   } else if (error instanceof Error) {
-    formattedError = handleGenericError(error);
+    formattedError = {
+      statusCode: 500,
+      message: error.message,
+      ...(error.stack ? { stack: error.stack } : {}),
+    };
   } else {
     formattedError = {
       statusCode: 500,
       message: "Something went wrong.",
-      errorName: "UnknownError",
     };
   }
-  const { statusCode, ...response } = formattedError;
-  const isDevelopment = config.node_env === "development";
 
-  res.status(statusCode).json({
+  if (isDevelopment) {
+    console.error(error);
+  }
+
+  const responseBody = {
     success: false,
-    message: response.message,
+    statusCode: formattedError.statusCode,
+    message:
+      isDevelopment || error instanceof AppError
+        ? formattedError.message
+        : "Something went wrong.",
+  };
 
-    ...(isDevelopment && {
-      errorName: response.errorName,
-      errorCode: response.errorCode,
-      location: response.location,
-    }),
-  });
+  if (isDevelopment) {
+    res.status(formattedError.statusCode).json({
+      ...responseBody,
+      ...(formattedError.errorCode
+        ? { errorCode: formattedError.errorCode }
+        : {}),
+      ...(formattedError.stack ? { stack: formattedError.stack } : {}),
+    });
+
+    return;
+  }
+
+  res.status(formattedError.statusCode).json(responseBody);
 };
