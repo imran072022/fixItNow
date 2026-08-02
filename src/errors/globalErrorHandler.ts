@@ -3,7 +3,7 @@ import type { ErrorRequestHandler } from "express";
 import { AppError } from "../errors/AppError.js";
 import { isPrismaError } from "./isPrismaError.js";
 import { handlePrismaError } from "./handlePrismaError.js";
-import type { TErrorResponse } from "../types/error.types.js";
+import type { TErrorResponse } from "../types/errorResponse.types.js";
 
 export const globalErrorHandler: ErrorRequestHandler = (
   error,
@@ -11,7 +11,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
   res,
   _next,
 ) => {
-  const isDevelopment = process.env.NODE_ENV === "development";
+  console.error(error);
 
   let formattedError: TErrorResponse;
 
@@ -21,13 +21,11 @@ export const globalErrorHandler: ErrorRequestHandler = (
     formattedError = {
       statusCode: error.statusCode,
       message: error.message,
-      ...(error.stack ? { stack: error.stack } : {}),
     };
   } else if (error instanceof Error) {
     formattedError = {
       statusCode: 500,
-      message: error.message,
-      ...(error.stack ? { stack: error.stack } : {}),
+      message: "Something went wrong.",
     };
   } else {
     formattedError = {
@@ -36,30 +34,9 @@ export const globalErrorHandler: ErrorRequestHandler = (
     };
   }
 
-  if (isDevelopment) {
-    console.error(error);
-  }
-
-  const responseBody = {
+  res.status(formattedError.statusCode).json({
     success: false,
     statusCode: formattedError.statusCode,
-    message:
-      isDevelopment || error instanceof AppError
-        ? formattedError.message
-        : "Something went wrong.",
-  };
-
-  if (isDevelopment) {
-    res.status(formattedError.statusCode).json({
-      ...responseBody,
-      ...(formattedError.errorCode
-        ? { errorCode: formattedError.errorCode }
-        : {}),
-      ...(formattedError.stack ? { stack: formattedError.stack } : {}),
-    });
-
-    return;
-  }
-
-  res.status(formattedError.statusCode).json(responseBody);
+    message: formattedError.message,
+  });
 };

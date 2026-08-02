@@ -1,6 +1,5 @@
 import { Prisma } from "../../prisma/generated/prisma/client.js";
-import type { TErrorResponse } from "../types/error.types.js";
-import { getCleanMessage } from "../utils/getCleanMessage.js";
+import type { TErrorResponse } from "../types/errorResponse.types.js";
 
 export const handlePrismaError = (
   error:
@@ -12,7 +11,7 @@ export const handlePrismaError = (
 ): TErrorResponse => {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     let statusCode = 400;
-    let message = getCleanMessage(error.message);
+    let message = "Database request failed.";
 
     if (error.code === "P2002") {
       statusCode = 409;
@@ -27,8 +26,6 @@ export const handlePrismaError = (
     return {
       statusCode,
       message,
-      errorCode: error.code,
-      ...(error.stack ? { stack: error.stack } : {}),
     };
   }
 
@@ -36,7 +33,6 @@ export const handlePrismaError = (
     return {
       statusCode: 400,
       message: "The database query is invalid.",
-      ...(error.stack ? { stack: error.stack } : {}),
     };
   }
 
@@ -44,7 +40,6 @@ export const handlePrismaError = (
     return {
       statusCode: 500,
       message: "The database could not be initialized.",
-      ...(error.stack ? { stack: error.stack } : {}),
     };
   }
 
@@ -52,13 +47,11 @@ export const handlePrismaError = (
     return {
       statusCode: 500,
       message: "The database engine crashed.",
-      ...(error.stack ? { stack: error.stack } : {}),
     };
   }
 
   return {
     statusCode: 500,
     message: "An unknown database error occurred.",
-    ...(error.stack ? { stack: error.stack } : {}),
   };
 };
