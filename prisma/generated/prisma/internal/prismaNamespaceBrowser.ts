@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  AvailabilitySlot: 'AvailabilitySlot',
   Booking: 'Booking',
   Category: 'Category',
   Payment: 'Payment',
@@ -74,6 +75,19 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AvailabilitySlotScalarFieldEnum = {
+  id: 'id',
+  technicianProfileId: 'technicianProfileId',
+  dayOfWeek: 'dayOfWeek',
+  startMinute: 'startMinute',
+  endMinute: 'endMinute',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AvailabilitySlotScalarFieldEnum = (typeof AvailabilitySlotScalarFieldEnum)[keyof typeof AvailabilitySlotScalarFieldEnum]
 
 
 export const BookingScalarFieldEnum = {
@@ -150,7 +164,7 @@ export const TechnicianProfileScalarFieldEnum = {
   dob: 'dob',
   location: 'location',
   experience: 'experience',
-  availabilitySlots: 'availabilitySlots',
+  isOnVacation: 'isOnVacation',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

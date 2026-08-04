@@ -1,0 +1,10 @@
+model AvailabilitySlot {
+  id                  String              @id @default(uuid())
+  technicianProfileId String
+  technicianProfile   TechnicianProfile   @relation(fields: [technicianProfileId], references: [id], onDelete: Cascade)
+  dayOfWeek           DayOfWeek
+  startMinute         Int
+  endMinute           Int
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+}

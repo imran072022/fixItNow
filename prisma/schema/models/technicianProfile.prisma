@@ -4,9 +4,10 @@ model TechnicianProfile {
   user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   photoUrl           String?
   dob                DateTime?
-  location           String
+  location           String?
   experience         Int                  @default(0)
-  availabilitySlots  String[]
+  isOnVacation       Boolean              @default(false)
+  availabilitySlots  AvailabilitySlot[]
   services           Service[]
   reviews            Review[]
   createdAt          DateTime             @default(now())

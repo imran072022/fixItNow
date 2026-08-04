@@ -3,7 +3,7 @@ import type { ErrorRequestHandler } from "express";
 import { AppError } from "../errors/AppError.js";
 import { isPrismaError } from "./isPrismaError.js";
 import { handlePrismaError } from "./handlePrismaError.js";
-import type { TErrorResponse } from "../types/errorResponse.types.js";
+import type { TErrorResponse } from "./error.types.js";
 
 export const globalErrorHandler: ErrorRequestHandler = (
   error,

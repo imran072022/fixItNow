@@ -1,5 +1,5 @@
 import { Prisma } from "../../prisma/generated/prisma/client.js";
-import type { TErrorResponse } from "../types/errorResponse.types.js";
+import type { TErrorResponse } from "./error.types.js";
 
 export const handlePrismaError = (
   error:

@@ -407,14 +407,6 @@ export type ReviewOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ReviewCreateNestedManyWithoutTechnicianProfileInput = {
   create?: Prisma.XOR<Prisma.ReviewCreateWithoutTechnicianProfileInput, Prisma.ReviewUncheckedCreateWithoutTechnicianProfileInput> | Prisma.ReviewCreateWithoutTechnicianProfileInput[] | Prisma.ReviewUncheckedCreateWithoutTechnicianProfileInput[]
   connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutTechnicianProfileInput | Prisma.ReviewCreateOrConnectWithoutTechnicianProfileInput[]

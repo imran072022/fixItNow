@@ -26,3 +26,12 @@ enum PaymentStatus {
   COMPLETED
   FAILED
 }
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
