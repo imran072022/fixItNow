@@ -4,6 +4,8 @@ import { AppError } from "../errors/AppError.js";
 import { isPrismaError } from "./isPrismaError.js";
 import { handlePrismaError } from "./handlePrismaError.js";
 import type { TErrorResponse } from "./error.types.js";
+import { ZodError } from "zod";
+import { handleZodError } from "./handleZodError.js";
 
 export const globalErrorHandler: ErrorRequestHandler = (
   error,
@@ -17,6 +19,8 @@ export const globalErrorHandler: ErrorRequestHandler = (
 
   if (isPrismaError(error)) {
     formattedError = handlePrismaError(error);
+  } else if (error instanceof ZodError) {
+    formattedError = handleZodError(error);
   } else if (error instanceof AppError) {
     formattedError = {
       statusCode: error.statusCode,
@@ -38,5 +42,8 @@ export const globalErrorHandler: ErrorRequestHandler = (
     success: false,
     statusCode: formattedError.statusCode,
     message: formattedError.message,
+    ...(formattedError.errors && {
+      errors: formattedError.errors,
+    }),
   });
 };
