@@ -8,7 +8,7 @@ import type {
   UserLoginPayload,
   UserRegisterPayload,
 } from "./auth.types";
-import { signToken } from "../../utils/jwt";
+import { signToken, verifyToken } from "../../utils/jwt";
 
 const registerUser = async (payload: UserRegisterPayload) => {
   const { name, email, password, role } = payload;
@@ -77,7 +77,28 @@ const login = async (payload: UserLoginPayload) => {
   return { accessToken, refreshToken };
 };
 
-const refreshToken = async () => {};
+const refreshToken = async (refreshToken: string) => {
+  const verifiedToken = verifyToken(refreshToken, config.jwt_refresh_secret);
+  const user = await prisma.user.findUnique({
+    where: { email: verifiedToken.email },
+  });
+  if (!user) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "User not found");
+  }
+  const { id, email, role, status } = user;
+  const jwtPayload: JwtUserPayload = {
+    id,
+    email,
+    role,
+    status,
+  };
+  const newAccessToken = signToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_token_expiry,
+  );
+  return newAccessToken;
+};
 
 export const authService = {
   registerUser,

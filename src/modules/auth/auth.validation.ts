@@ -32,16 +32,6 @@ export const registerSchema = z.object({
 export const loginSchema = z.object({
   body: z.object({
     email: z.email("Invalid email address"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters.")
-      .max(32, "Password cannot exceed 32 characters.")
-      .regex(/[a-z]/, "Password must contain at least one lowercase letter.")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter.")
-      .regex(/\d/, "Password must contain at least one number.")
-      .regex(
-        /[!@#$%^&*(),.?":{}|<>_\-\\[\]/`~+=;'']/,
-        "Password must contain at least one special character.",
-      ),
+    password: z.string().min(1, "Password is required"),
   }),
 });
