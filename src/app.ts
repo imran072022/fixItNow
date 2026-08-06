@@ -4,7 +4,7 @@ import { authRoutes } from "./modules/auth/auth.route";
 import { bookingRoutes } from "./modules/bookings/bookings.route";
 import { categoryRoutes } from "./modules/categories/category.route";
 import { paymentRoutes } from "./modules/payments/payments.route";
-import { serviceRoutes } from "./modules/services/services.route";
+import { serviceRoutes } from "./modules/services/service.route";
 import { reviewRoutes } from "./modules/reviews/reviews.route";
 import { technicianRoutes } from "./modules/technicians/technicians.route";
 import { adminRoutes } from "./modules/admin/admin.route";

@@ -261,6 +261,7 @@ export type ServiceOrderByWithRelationInput = {
 
 export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  technicianProfileId_categoryId_name?: Prisma.ServiceTechnicianProfileIdCategoryIdNameCompoundUniqueInput
   AND?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
   OR?: Prisma.ServiceWhereInput[]
   NOT?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
@@ -274,7 +275,7 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   technicianProfile?: Prisma.XOR<Prisma.TechnicianProfileScalarRelationFilter, Prisma.TechnicianProfileWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   bookings?: Prisma.BookingListRelationFilter
-}, "id">
+}, "id" | "technicianProfileId_categoryId_name">
 
 export type ServiceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -398,6 +399,12 @@ export type ServiceListRelationFilter = {
 
 export type ServiceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ServiceTechnicianProfileIdCategoryIdNameCompoundUniqueInput = {
+  technicianProfileId: string
+  categoryId: string
+  name: string
 }
 
 export type ServiceCountOrderByAggregateInput = {

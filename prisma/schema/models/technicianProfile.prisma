@@ -12,4 +12,5 @@ model TechnicianProfile {
   reviews            Review[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
+
 }

@@ -10,4 +10,6 @@ model Service {
   bookings             Booking[]
   createdAt            DateTime             @default(now())
   updatedAt            DateTime             @updatedAt
+
+  @@unique([technicianProfileId, categoryId, name])
 }
