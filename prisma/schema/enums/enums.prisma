@@ -6,7 +6,6 @@ enum Role {
 enum UserStatus {
     ACTIVE
     BANNED
-    PENDING_APPROVAL
 }
 enum BookingStatus {
     REQUESTED 

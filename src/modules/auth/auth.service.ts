@@ -9,6 +9,7 @@ import type {
   UserRegisterPayload,
 } from "./auth.types";
 import { signToken, verifyToken } from "../../utils/jwt";
+import { UserStatus } from "../../../prisma/generated/prisma/enums";
 
 const registerUser = async (payload: UserRegisterPayload) => {
   const { name, email, password, role } = payload;
@@ -51,6 +52,12 @@ const login = async (payload: UserLoginPayload) => {
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "Invalid credentials");
+  }
+  if (user.status === UserStatus.BANNED) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to login.",
+    );
   }
   const hashedPassword = user.password;
   const passwordMatches = await bcrypt.compare(password, hashedPassword);
