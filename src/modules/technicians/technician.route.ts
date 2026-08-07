@@ -1,0 +1,39 @@
+import { Router } from "express";
+import { technicianController } from "./technician.controller";
+import { validateRequest } from "../../middlewares/validateRequest";
+import {
+  getTechnicianSchema,
+  updateProfileSchema,
+} from "./technician.validation";
+import { authentication } from "../../middlewares/authentication";
+import { authorization } from "../../middlewares/authorization";
+
+const router = Router();
+// We are keeping profiles only for technicians in this platform for assignment simplicity.
+
+// everyone can get/browse all technicians in a page (apply SEARCH + FILTER)
+router.get("/technicians", technicianController.getTechnicianProfiles);
+
+// anyone can view a specific technician's profile
+router.get(
+  "/technicians/:id",
+  validateRequest(getTechnicianSchema),
+  technicianController.getATechnicianProfile,
+);
+
+// technicians can update their own profile.
+router.patch(
+  "/technicians/me",
+  validateRequest(updateProfileSchema),
+  authentication,
+  authorization("TECHNICIAN"),
+  technicianController.updateProfile,
+);
+
+// technicians need to set/update availability slots
+router.patch(
+  "/technicians/me/availability",
+  technicianController.setAvailability,
+);
+
+export const technicianRoutes = router;

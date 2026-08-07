@@ -6,7 +6,7 @@ import { categoryRoutes } from "./modules/categories/category.route";
 import { paymentRoutes } from "./modules/payments/payments.route";
 import { serviceRoutes } from "./modules/services/service.route";
 import { reviewRoutes } from "./modules/reviews/reviews.route";
-import { technicianRoutes } from "./modules/technicians/technicians.route";
+import { technicianRoutes } from "./modules/technicians/technician.route";
 import { adminRoutes } from "./modules/admin/admin.route";
 import { notFound } from "./middlewares/notFound";
 import { globalErrorHandler } from "./errors/globalErrorHandler";
