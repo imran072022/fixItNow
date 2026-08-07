@@ -30,6 +30,15 @@ const getATechnicianProfile = catchAsync(
   },
 );
 
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const myProfile = await technicianService.getMyProfile(req.user.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Profile retrieved successfully",
+    data: myProfile,
+  });
+});
+
 const updateProfile = catchAsync(async (req: Request, res: Response) => {
   const updatedProfile = await technicianService.updateProfile(
     req.body,
@@ -47,6 +56,7 @@ const setAvailability = catchAsync(async () => {});
 export const technicianController = {
   getTechnicianProfiles,
   getATechnicianProfile,
+  getMyProfile,
   updateProfile,
   setAvailability,
 };

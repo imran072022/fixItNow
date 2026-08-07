@@ -1,5 +1,6 @@
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
+import type catchAsync from "../../utils/catchAsync";
 import type { TechnicianProfileId, TUpdateProfile } from "./technician.type";
 import httpStatus from "http-status";
 
@@ -64,6 +65,28 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
   });
   return technicianProfile;
 };
+
+const getMyProfile = async (userId: string) => {
+  const profile = await prisma.technicianProfile.findUnique({
+    where: {
+      userId,
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+      availabilitySlots: true,
+    },
+  });
+  if (!profile) {
+    throw new AppError(httpStatus.NOT_FOUND, "Profile not found");
+  }
+  return profile;
+};
+
 const updateProfile = async (
   updateProfilePayload: TUpdateProfile,
   userId: string,
@@ -120,6 +143,7 @@ const setAvailability = async () => {};
 export const technicianService = {
   getTechnicianProfiles,
   getATechnicianProfile,
+  getMyProfile,
   updateProfile,
   setAvailability,
 };

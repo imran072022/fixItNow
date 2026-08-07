@@ -14,6 +14,14 @@ const router = Router();
 // everyone can get/browse all technicians in a page (apply SEARCH + FILTER)
 router.get("/technicians", technicianController.getTechnicianProfiles);
 
+// technicians can view their own profile.
+router.get(
+  "/technicians/me",
+  authentication,
+  authorization("TECHNICIAN"),
+  technicianController.getMyProfile,
+);
+
 // anyone can view a specific technician's profile
 router.get(
   "/technicians/:id",
