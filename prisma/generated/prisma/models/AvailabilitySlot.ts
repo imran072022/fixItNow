@@ -252,6 +252,7 @@ export type AvailabilitySlotOrderByWithRelationInput = {
 
 export type AvailabilitySlotWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  technicianProfileId_dayOfWeek_startMinute_endMinute?: Prisma.AvailabilitySlotTechnicianProfileIdDayOfWeekStartMinuteEndMinuteCompoundUniqueInput
   AND?: Prisma.AvailabilitySlotWhereInput | Prisma.AvailabilitySlotWhereInput[]
   OR?: Prisma.AvailabilitySlotWhereInput[]
   NOT?: Prisma.AvailabilitySlotWhereInput | Prisma.AvailabilitySlotWhereInput[]
@@ -262,7 +263,7 @@ export type AvailabilitySlotWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"AvailabilitySlot"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AvailabilitySlot"> | Date | string
   technicianProfile?: Prisma.XOR<Prisma.TechnicianProfileScalarRelationFilter, Prisma.TechnicianProfileWhereInput>
-}, "id">
+}, "id" | "technicianProfileId_dayOfWeek_startMinute_endMinute">
 
 export type AvailabilitySlotOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -359,6 +360,13 @@ export type AvailabilitySlotUncheckedUpdateManyInput = {
   endMinute?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AvailabilitySlotTechnicianProfileIdDayOfWeekStartMinuteEndMinuteCompoundUniqueInput = {
+  technicianProfileId: string
+  dayOfWeek: $Enums.DayOfWeek
+  startMinute: number
+  endMinute: number
 }
 
 export type AvailabilitySlotCountOrderByAggregateInput = {

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { technicianController } from "./technician.controller";
 import { validateRequest } from "../../middlewares/validateRequest";
 import {
+  availabilitySlotSchema,
   getTechnicianSchema,
   updateProfileSchema,
 } from "./technician.validation";
@@ -32,15 +33,18 @@ router.get(
 // technicians can update their own profile.
 router.patch(
   "/technicians/me",
-  validateRequest(updateProfileSchema),
   authentication,
   authorization("TECHNICIAN"),
+  validateRequest(updateProfileSchema),
   technicianController.updateProfile,
 );
 
 // technicians need to set/update availability slots
-router.patch(
+router.post(
   "/technicians/me/availability",
+  authentication,
+  authorization("TECHNICIAN"),
+  validateRequest(availabilitySlotSchema),
   technicianController.setAvailability,
 );
 

@@ -10,9 +10,9 @@ const router = Router();
 // only admin can create a category
 router.post(
   "/categories",
-  validateRequest(categorySchema),
   authentication,
   authorization("ADMIN"),
+  validateRequest(categorySchema),
   categoryController.createCategory,
 );
 

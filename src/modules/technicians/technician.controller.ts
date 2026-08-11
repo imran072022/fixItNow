@@ -51,7 +51,14 @@ const updateProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const setAvailability = catchAsync(async () => {});
+const setAvailability = catchAsync(async (req: Request, res: Response) => {
+  const slot = await technicianService.setAvailability(req.body, req.user.id);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Availability slot added successfully",
+    data: slot,
+  });
+});
 
 export const technicianController = {
   getTechnicianProfiles,

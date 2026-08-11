@@ -1,7 +1,11 @@
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
 import type catchAsync from "../../utils/catchAsync";
-import type { TechnicianProfileId, TUpdateProfile } from "./technician.type";
+import type {
+  AvailabilitySlot,
+  TechnicianProfileId,
+  TUpdateProfile,
+} from "./technician.type";
 import httpStatus from "http-status";
 
 const getTechnicianProfiles = async () => {
@@ -138,7 +142,30 @@ const updateProfile = async (
   });
   return updatedProfile;
 };
-const setAvailability = async () => {};
+const setAvailability = async (payload: AvailabilitySlot, userId: string) => {
+  const profile = await prisma.technicianProfile.findUnique({
+    where: {
+      userId,
+    },
+  });
+  if (!profile) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Technician profile doesn't exist",
+    );
+  }
+  const { dayOfWeek, startMinute, endMinute } = payload;
+
+  const slot = await prisma.availabilitySlot.create({
+    data: {
+      technicianProfileId: profile.id,
+      dayOfWeek,
+      startMinute,
+      endMinute,
+    },
+  });
+  return slot;
+};
 
 export const technicianService = {
   getTechnicianProfiles,

@@ -11,9 +11,9 @@ const router = Router();
 // technicians will create services what they offer/can provide
 router.post(
   "/services",
-  validateRequest(serviceSchema),
   authentication,
   authorization("TECHNICIAN"),
+  validateRequest(serviceSchema),
   serviceController.createService,
 );
 

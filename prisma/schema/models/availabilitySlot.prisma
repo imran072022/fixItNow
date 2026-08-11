@@ -7,4 +7,5 @@ model AvailabilitySlot {
   endMinute           Int
   createdAt           DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
+  @@unique([technicianProfileId, dayOfWeek, startMinute, endMinute])
 }
