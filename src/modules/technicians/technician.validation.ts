@@ -31,6 +31,7 @@ export const availabilitySlotSchema = z.object({
         DayOfWeek.WEDNESDAY,
         DayOfWeek.THURSDAY,
         DayOfWeek.FRIDAY,
+        DayOfWeek.SATURDAY,
       ]),
       startMinute: z.number().int().min(0).max(1439).multipleOf(30),
       endMinute: z.number().int().min(0).max(1440).multipleOf(30),

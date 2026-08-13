@@ -8,7 +8,7 @@ import catchAsync from "../utils/catchAsync";
 import { UserStatus } from "../../prisma/generated/prisma/enums";
 
 export const authentication = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, _res: Response, next: NextFunction) => {
     const token = req.cookies?.accessToken;
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, "You need to login first");
