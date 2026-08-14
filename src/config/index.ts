@@ -20,6 +20,9 @@ if (!process.env.JWT_ACCESS_EXPIRY || !process.env.JWT_REFRESH_EXPIRY) {
     "JWT expiration times are not defined in the environment variables",
   );
 }
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error("Stripe secret key is undefined");
+}
 
 const config = {
   database_url: process.env.DATABASE_URL,
@@ -30,6 +33,8 @@ const config = {
   jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
   jwt_access_token_expiry: process.env.JWT_ACCESS_EXPIRY as StringValue,
   jwt_refresh_token_expiry: process.env.JWT_REFRESH_EXPIRY as StringValue,
+  stripe_secret_key: process.env.STRIPE_SECRET_KEY,
+  frontend_url: process.env.FRONTEND_URL,
 };
 
 export default config;

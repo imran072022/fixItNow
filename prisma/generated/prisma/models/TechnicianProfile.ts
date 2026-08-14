@@ -251,6 +251,7 @@ export type TechnicianProfileWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   availabilitySlots?: Prisma.AvailabilitySlotListRelationFilter
   services?: Prisma.ServiceListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
 }
 
@@ -267,6 +268,7 @@ export type TechnicianProfileOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   availabilitySlots?: Prisma.AvailabilitySlotOrderByRelationAggregateInput
   services?: Prisma.ServiceOrderByRelationAggregateInput
+  bookings?: Prisma.BookingOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
@@ -286,6 +288,7 @@ export type TechnicianProfileWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   availabilitySlots?: Prisma.AvailabilitySlotListRelationFilter
   services?: Prisma.ServiceListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
 }, "id" | "userId">
 
@@ -333,6 +336,7 @@ export type TechnicianProfileCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
   availabilitySlots?: Prisma.AvailabilitySlotCreateNestedManyWithoutTechnicianProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -348,6 +352,7 @@ export type TechnicianProfileUncheckedCreateInput = {
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -363,6 +368,7 @@ export type TechnicianProfileUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
   availabilitySlots?: Prisma.AvailabilitySlotUpdateManyWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTechnicianProfileNestedInput
 }
 
@@ -378,6 +384,7 @@ export type TechnicianProfileUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTechnicianProfileNestedInput
 }
 
@@ -484,6 +491,20 @@ export type TechnicianProfileUpdateOneRequiredWithoutAvailabilitySlotsNestedInpu
   update?: Prisma.XOR<Prisma.XOR<Prisma.TechnicianProfileUpdateToOneWithWhereWithoutAvailabilitySlotsInput, Prisma.TechnicianProfileUpdateWithoutAvailabilitySlotsInput>, Prisma.TechnicianProfileUncheckedUpdateWithoutAvailabilitySlotsInput>
 }
 
+export type TechnicianProfileCreateNestedOneWithoutBookingsInput = {
+  create?: Prisma.XOR<Prisma.TechnicianProfileCreateWithoutBookingsInput, Prisma.TechnicianProfileUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.TechnicianProfileCreateOrConnectWithoutBookingsInput
+  connect?: Prisma.TechnicianProfileWhereUniqueInput
+}
+
+export type TechnicianProfileUpdateOneRequiredWithoutBookingsNestedInput = {
+  create?: Prisma.XOR<Prisma.TechnicianProfileCreateWithoutBookingsInput, Prisma.TechnicianProfileUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.TechnicianProfileCreateOrConnectWithoutBookingsInput
+  upsert?: Prisma.TechnicianProfileUpsertWithoutBookingsInput
+  connect?: Prisma.TechnicianProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TechnicianProfileUpdateToOneWithWhereWithoutBookingsInput, Prisma.TechnicianProfileUpdateWithoutBookingsInput>, Prisma.TechnicianProfileUncheckedUpdateWithoutBookingsInput>
+}
+
 export type TechnicianProfileCreateNestedOneWithoutReviewsInput = {
   create?: Prisma.XOR<Prisma.TechnicianProfileCreateWithoutReviewsInput, Prisma.TechnicianProfileUncheckedCreateWithoutReviewsInput>
   connectOrCreate?: Prisma.TechnicianProfileCreateOrConnectWithoutReviewsInput
@@ -510,10 +531,6 @@ export type TechnicianProfileUpdateOneRequiredWithoutServicesNestedInput = {
   upsert?: Prisma.TechnicianProfileUpsertWithoutServicesInput
   connect?: Prisma.TechnicianProfileWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TechnicianProfileUpdateToOneWithWhereWithoutServicesInput, Prisma.TechnicianProfileUpdateWithoutServicesInput>, Prisma.TechnicianProfileUncheckedUpdateWithoutServicesInput>
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -563,6 +580,7 @@ export type TechnicianProfileCreateWithoutAvailabilitySlotsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -577,6 +595,7 @@ export type TechnicianProfileUncheckedCreateWithoutAvailabilitySlotsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -607,6 +626,7 @@ export type TechnicianProfileUpdateWithoutAvailabilitySlotsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTechnicianProfileNestedInput
 }
 
@@ -620,6 +640,83 @@ export type TechnicianProfileUncheckedUpdateWithoutAvailabilitySlotsInput = {
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.ServiceUncheckedUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutTechnicianProfileNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTechnicianProfileNestedInput
+}
+
+export type TechnicianProfileCreateWithoutBookingsInput = {
+  id?: string
+  photoUrl?: string | null
+  dob?: Date | string | null
+  location?: string | null
+  experience?: number
+  isOnVacation?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
+  availabilitySlots?: Prisma.AvailabilitySlotCreateNestedManyWithoutTechnicianProfileInput
+  services?: Prisma.ServiceCreateNestedManyWithoutTechnicianProfileInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutTechnicianProfileInput
+}
+
+export type TechnicianProfileUncheckedCreateWithoutBookingsInput = {
+  id?: string
+  userId: string
+  photoUrl?: string | null
+  dob?: Date | string | null
+  location?: string | null
+  experience?: number
+  isOnVacation?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
+  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutTechnicianProfileInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTechnicianProfileInput
+}
+
+export type TechnicianProfileCreateOrConnectWithoutBookingsInput = {
+  where: Prisma.TechnicianProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.TechnicianProfileCreateWithoutBookingsInput, Prisma.TechnicianProfileUncheckedCreateWithoutBookingsInput>
+}
+
+export type TechnicianProfileUpsertWithoutBookingsInput = {
+  update: Prisma.XOR<Prisma.TechnicianProfileUpdateWithoutBookingsInput, Prisma.TechnicianProfileUncheckedUpdateWithoutBookingsInput>
+  create: Prisma.XOR<Prisma.TechnicianProfileCreateWithoutBookingsInput, Prisma.TechnicianProfileUncheckedCreateWithoutBookingsInput>
+  where?: Prisma.TechnicianProfileWhereInput
+}
+
+export type TechnicianProfileUpdateToOneWithWhereWithoutBookingsInput = {
+  where?: Prisma.TechnicianProfileWhereInput
+  data: Prisma.XOR<Prisma.TechnicianProfileUpdateWithoutBookingsInput, Prisma.TechnicianProfileUncheckedUpdateWithoutBookingsInput>
+}
+
+export type TechnicianProfileUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.IntFieldUpdateOperationsInput | number
+  isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
+  availabilitySlots?: Prisma.AvailabilitySlotUpdateManyWithoutTechnicianProfileNestedInput
+  services?: Prisma.ServiceUpdateManyWithoutTechnicianProfileNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutTechnicianProfileNestedInput
+}
+
+export type TechnicianProfileUncheckedUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.IntFieldUpdateOperationsInput | number
+  isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTechnicianProfileNestedInput
 }
@@ -636,6 +733,7 @@ export type TechnicianProfileCreateWithoutReviewsInput = {
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
   availabilitySlots?: Prisma.AvailabilitySlotCreateNestedManyWithoutTechnicianProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutTechnicianProfileInput
 }
 
 export type TechnicianProfileUncheckedCreateWithoutReviewsInput = {
@@ -650,6 +748,7 @@ export type TechnicianProfileUncheckedCreateWithoutReviewsInput = {
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTechnicianProfileInput
 }
 
 export type TechnicianProfileCreateOrConnectWithoutReviewsInput = {
@@ -680,6 +779,7 @@ export type TechnicianProfileUpdateWithoutReviewsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
   availabilitySlots?: Prisma.AvailabilitySlotUpdateManyWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutTechnicianProfileNestedInput
 }
 
 export type TechnicianProfileUncheckedUpdateWithoutReviewsInput = {
@@ -694,6 +794,7 @@ export type TechnicianProfileUncheckedUpdateWithoutReviewsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutTechnicianProfileNestedInput
 }
 
 export type TechnicianProfileCreateWithoutServicesInput = {
@@ -707,6 +808,7 @@ export type TechnicianProfileCreateWithoutServicesInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
   availabilitySlots?: Prisma.AvailabilitySlotCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -721,6 +823,7 @@ export type TechnicianProfileUncheckedCreateWithoutServicesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -751,6 +854,7 @@ export type TechnicianProfileUpdateWithoutServicesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
   availabilitySlots?: Prisma.AvailabilitySlotUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTechnicianProfileNestedInput
 }
 
@@ -765,6 +869,7 @@ export type TechnicianProfileUncheckedUpdateWithoutServicesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTechnicianProfileNestedInput
 }
 
@@ -779,6 +884,7 @@ export type TechnicianProfileCreateWithoutUserInput = {
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotCreateNestedManyWithoutTechnicianProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -793,6 +899,7 @@ export type TechnicianProfileUncheckedCreateWithoutUserInput = {
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutTechnicianProfileInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTechnicianProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTechnicianProfileInput
 }
 
@@ -823,6 +930,7 @@ export type TechnicianProfileUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUpdateManyWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTechnicianProfileNestedInput
 }
 
@@ -837,6 +945,7 @@ export type TechnicianProfileUncheckedUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutTechnicianProfileNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutTechnicianProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTechnicianProfileNestedInput
 }
 
@@ -848,12 +957,14 @@ export type TechnicianProfileUncheckedUpdateWithoutUserInput = {
 export type TechnicianProfileCountOutputType = {
   availabilitySlots: number
   services: number
+  bookings: number
   reviews: number
 }
 
 export type TechnicianProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   availabilitySlots?: boolean | TechnicianProfileCountOutputTypeCountAvailabilitySlotsArgs
   services?: boolean | TechnicianProfileCountOutputTypeCountServicesArgs
+  bookings?: boolean | TechnicianProfileCountOutputTypeCountBookingsArgs
   reviews?: boolean | TechnicianProfileCountOutputTypeCountReviewsArgs
 }
 
@@ -884,6 +995,13 @@ export type TechnicianProfileCountOutputTypeCountServicesArgs<ExtArgs extends ru
 /**
  * TechnicianProfileCountOutputType without action
  */
+export type TechnicianProfileCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookingWhereInput
+}
+
+/**
+ * TechnicianProfileCountOutputType without action
+ */
 export type TechnicianProfileCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReviewWhereInput
 }
@@ -902,6 +1020,7 @@ export type TechnicianProfileSelect<ExtArgs extends runtime.Types.Extensions.Int
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   availabilitySlots?: boolean | Prisma.TechnicianProfile$availabilitySlotsArgs<ExtArgs>
   services?: boolean | Prisma.TechnicianProfile$servicesArgs<ExtArgs>
+  bookings?: boolean | Prisma.TechnicianProfile$bookingsArgs<ExtArgs>
   reviews?: boolean | Prisma.TechnicianProfile$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.TechnicianProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["technicianProfile"]>
@@ -949,6 +1068,7 @@ export type TechnicianProfileInclude<ExtArgs extends runtime.Types.Extensions.In
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   availabilitySlots?: boolean | Prisma.TechnicianProfile$availabilitySlotsArgs<ExtArgs>
   services?: boolean | Prisma.TechnicianProfile$servicesArgs<ExtArgs>
+  bookings?: boolean | Prisma.TechnicianProfile$bookingsArgs<ExtArgs>
   reviews?: boolean | Prisma.TechnicianProfile$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.TechnicianProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -965,6 +1085,7 @@ export type $TechnicianProfilePayload<ExtArgs extends runtime.Types.Extensions.I
     user: Prisma.$UserPayload<ExtArgs>
     availabilitySlots: Prisma.$AvailabilitySlotPayload<ExtArgs>[]
     services: Prisma.$ServicePayload<ExtArgs>[]
+    bookings: Prisma.$BookingPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1374,6 +1495,7 @@ export interface Prisma__TechnicianProfileClient<T, Null = never, ExtArgs extend
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   availabilitySlots<T extends Prisma.TechnicianProfile$availabilitySlotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TechnicianProfile$availabilitySlotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AvailabilitySlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   services<T extends Prisma.TechnicianProfile$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TechnicianProfile$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookings<T extends Prisma.TechnicianProfile$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TechnicianProfile$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.TechnicianProfile$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TechnicianProfile$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1859,6 +1981,30 @@ export type TechnicianProfile$servicesArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.ServiceScalarFieldEnum | Prisma.ServiceScalarFieldEnum[]
+}
+
+/**
+ * TechnicianProfile.bookings
+ */
+export type TechnicianProfile$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Booking
+   */
+  select?: Prisma.BookingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Booking
+   */
+  omit?: Prisma.BookingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingInclude<ExtArgs> | null
+  where?: Prisma.BookingWhereInput
+  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
+  cursor?: Prisma.BookingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
 }
 
 /**

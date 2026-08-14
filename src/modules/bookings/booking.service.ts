@@ -1,6 +1,11 @@
-import type { DayOfWeek } from "../../../prisma/generated/prisma/enums";
+import {
+  BookingStatus,
+  Role,
+  type DayOfWeek,
+} from "../../../prisma/generated/prisma/enums";
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
+import type { JwtUserPayload } from "../auth/auth.types";
 import type { BookingPayload } from "./booking.type";
 import httpStatus from "http-status";
 
@@ -181,6 +186,7 @@ const createBooking = async (payload: BookingPayload, userId: string) => {
   return prisma.booking.create({
     data: {
       customerId: userId,
+      technicianProfileId: technicianProfile.id,
       serviceId,
       bookingDetails,
       location,
@@ -189,13 +195,84 @@ const createBooking = async (payload: BookingPayload, userId: string) => {
   });
 };
 
-const getAllBookings = async () => {};
-const getASingleBooking = async () => {};
-const updateBookingStatus = async () => {};
+const getAllBookings = async (userInfo: JwtUserPayload) => {
+  const { id, role } = userInfo;
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User doesn't exist");
+  }
+  const bookings =
+    role === Role.ADMIN
+      ? await prisma.booking.findMany()
+      : role === Role.CUSTOMER
+        ? await prisma.booking.findMany({
+            where: {
+              customerId: id,
+            },
+          })
+        : await prisma.booking.findMany({
+            where: {
+              technicianProfile: {
+                userId: id,
+              },
+            },
+          });
+  return {
+    total: bookings?.length,
+    bookings,
+  };
+};
+
+const updateBookingStatus = async (
+  bookingId: string,
+  status: BookingStatus,
+  userId: string,
+) => {
+  const booking = await prisma.booking.findUnique({
+    where: {
+      id: bookingId,
+    },
+    include: {
+      technicianProfile: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
+
+  if (!booking) {
+    throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+  }
+
+  // Make sure this technician owns the service
+  if (booking.technicianProfile.userId !== userId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not allowed to update this booking",
+    );
+  }
+
+  // Only REQUESTED bookings can be accepted or denied
+  if (booking.status === BookingStatus.REQUESTED) {
+    const result = prisma.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        status,
+      },
+    });
+    return result;
+  }
+};
 
 export const bookingService = {
   createBooking,
   getAllBookings,
-  getASingleBooking,
   updateBookingStatus,
 };

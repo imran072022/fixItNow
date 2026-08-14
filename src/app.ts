@@ -3,7 +3,7 @@ import express, { type Application } from "express";
 import { authRoutes } from "./modules/auth/auth.route";
 import { bookingRoutes } from "./modules/bookings/booking.route";
 import { categoryRoutes } from "./modules/categories/category.route";
-import { paymentRoutes } from "./modules/payments/payments.route";
+import { paymentRoutes } from "./modules/payments/payment.route";
 import { serviceRoutes } from "./modules/services/service.route";
 import { reviewRoutes } from "./modules/reviews/reviews.route";
 import { technicianRoutes } from "./modules/technicians/technician.route";

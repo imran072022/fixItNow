@@ -9,6 +9,7 @@ model TechnicianProfile {
   isOnVacation       Boolean              @default(false)
   availabilitySlots  AvailabilitySlot[]
   services           Service[]
+  bookings           Booking[]            @relation("TechnicianBookings")
   reviews            Review[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt

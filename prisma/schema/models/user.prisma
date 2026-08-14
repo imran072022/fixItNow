@@ -6,7 +6,7 @@ model User {
   role               Role                 
   status             UserStatus           @default(ACTIVE)
   technicianProfile  TechnicianProfile?
-  bookings           Booking[]
+  bookings           Booking[]            @relation("CustomerBookings")
   reviews            Review[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt

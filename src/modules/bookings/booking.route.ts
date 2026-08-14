@@ -18,13 +18,20 @@ router.post(
 );
 
 // users or technicians can see all their bookings. Admin can see all bookings (role based)
-router.get("/bookings", bookingController.getAllBookings);
-
-// users/technicians can view/get a single booking of them
-router.get("/bookings/:id", bookingController.getASingleBooking);
+router.get(
+  "/bookings",
+  authentication,
+  authorization("ADMIN", "CUSTOMER", "TECHNICIAN"),
+  bookingController.getAllBookings,
+);
 
 // technician can either accept or decline request and it will change booking status
-router.patch("/bookings/:id", bookingController.updateBookingStatus);
+router.patch(
+  "/bookings/:id/status",
+  authentication,
+  authorization("TECHNICIAN", "CUSTOMER"),
+  bookingController.updateBookingStatus,
+);
 
 // implement later that users can track their booking status and get notified when the status changes
 

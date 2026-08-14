@@ -12,6 +12,7 @@ enum BookingStatus {
     DENIED
     ACCEPTED
     PAID
+    CANCELLED
     IN_PROGRESS
     COMPLETED
 }

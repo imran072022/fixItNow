@@ -93,6 +93,7 @@ export type AvailabilitySlotScalarFieldEnum = (typeof AvailabilitySlotScalarFiel
 export const BookingScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
+  technicianProfileId: 'technicianProfileId',
   serviceId: 'serviceId',
   bookingDetails: 'bookingDetails',
   location: 'location',
