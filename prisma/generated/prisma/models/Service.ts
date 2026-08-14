@@ -27,11 +27,11 @@ export type AggregateService = {
 }
 
 export type ServiceAvgAggregateOutputType = {
-  price: runtime.Decimal | null
+  price: number | null
 }
 
 export type ServiceSumAggregateOutputType = {
-  price: runtime.Decimal | null
+  price: number | null
 }
 
 export type ServiceMinAggregateOutputType = {
@@ -40,7 +40,7 @@ export type ServiceMinAggregateOutputType = {
   categoryId: string | null
   name: string | null
   description: string | null
-  price: runtime.Decimal | null
+  price: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -51,7 +51,7 @@ export type ServiceMaxAggregateOutputType = {
   categoryId: string | null
   name: string | null
   description: string | null
-  price: runtime.Decimal | null
+  price: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -203,7 +203,7 @@ export type ServiceGroupByOutputType = {
   categoryId: string
   name: string
   description: string
-  price: runtime.Decimal
+  price: number
   createdAt: Date
   updatedAt: Date
   _count: ServiceCountAggregateOutputType | null
@@ -237,7 +237,7 @@ export type ServiceWhereInput = {
   categoryId?: Prisma.StringFilter<"Service"> | string
   name?: Prisma.StringFilter<"Service"> | string
   description?: Prisma.StringFilter<"Service"> | string
-  price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFilter<"Service"> | number
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   technicianProfile?: Prisma.XOR<Prisma.TechnicianProfileScalarRelationFilter, Prisma.TechnicianProfileWhereInput>
@@ -269,7 +269,7 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   categoryId?: Prisma.StringFilter<"Service"> | string
   name?: Prisma.StringFilter<"Service"> | string
   description?: Prisma.StringFilter<"Service"> | string
-  price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFilter<"Service"> | number
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   technicianProfile?: Prisma.XOR<Prisma.TechnicianProfileScalarRelationFilter, Prisma.TechnicianProfileWhereInput>
@@ -302,7 +302,7 @@ export type ServiceScalarWhereWithAggregatesInput = {
   categoryId?: Prisma.StringWithAggregatesFilter<"Service"> | string
   name?: Prisma.StringWithAggregatesFilter<"Service"> | string
   description?: Prisma.StringWithAggregatesFilter<"Service"> | string
-  price?: Prisma.DecimalWithAggregatesFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntWithAggregatesFilter<"Service"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
 }
@@ -311,7 +311,7 @@ export type ServiceCreateInput = {
   id?: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
   technicianProfile: Prisma.TechnicianProfileCreateNestedOneWithoutServicesInput
@@ -325,7 +325,7 @@ export type ServiceUncheckedCreateInput = {
   categoryId: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
@@ -335,7 +335,7 @@ export type ServiceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicianProfile?: Prisma.TechnicianProfileUpdateOneRequiredWithoutServicesNestedInput
@@ -349,7 +349,7 @@ export type ServiceUncheckedUpdateInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
@@ -361,7 +361,7 @@ export type ServiceCreateManyInput = {
   categoryId: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -370,7 +370,7 @@ export type ServiceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -381,7 +381,7 @@ export type ServiceUncheckedUpdateManyInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -550,7 +550,7 @@ export type ServiceCreateWithoutBookingsInput = {
   id?: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
   technicianProfile: Prisma.TechnicianProfileCreateNestedOneWithoutServicesInput
@@ -563,7 +563,7 @@ export type ServiceUncheckedCreateWithoutBookingsInput = {
   categoryId: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -588,7 +588,7 @@ export type ServiceUpdateWithoutBookingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicianProfile?: Prisma.TechnicianProfileUpdateOneRequiredWithoutServicesNestedInput
@@ -601,7 +601,7 @@ export type ServiceUncheckedUpdateWithoutBookingsInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -610,7 +610,7 @@ export type ServiceCreateWithoutCategoryInput = {
   id?: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
   technicianProfile: Prisma.TechnicianProfileCreateNestedOneWithoutServicesInput
@@ -622,7 +622,7 @@ export type ServiceUncheckedCreateWithoutCategoryInput = {
   technicianProfileId: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
@@ -663,7 +663,7 @@ export type ServiceScalarWhereInput = {
   categoryId?: Prisma.StringFilter<"Service"> | string
   name?: Prisma.StringFilter<"Service"> | string
   description?: Prisma.StringFilter<"Service"> | string
-  price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFilter<"Service"> | number
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
 }
@@ -672,7 +672,7 @@ export type ServiceCreateWithoutTechnicianProfileInput = {
   id?: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutServicesInput
@@ -684,7 +684,7 @@ export type ServiceUncheckedCreateWithoutTechnicianProfileInput = {
   categoryId: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
@@ -721,7 +721,7 @@ export type ServiceCreateManyCategoryInput = {
   technicianProfileId: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -730,7 +730,7 @@ export type ServiceUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technicianProfile?: Prisma.TechnicianProfileUpdateOneRequiredWithoutServicesNestedInput
@@ -742,7 +742,7 @@ export type ServiceUncheckedUpdateWithoutCategoryInput = {
   technicianProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
@@ -753,7 +753,7 @@ export type ServiceUncheckedUpdateManyWithoutCategoryInput = {
   technicianProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -763,7 +763,7 @@ export type ServiceCreateManyTechnicianProfileInput = {
   categoryId: string
   name: string
   description: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -772,7 +772,7 @@ export type ServiceUpdateWithoutTechnicianProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
@@ -784,7 +784,7 @@ export type ServiceUncheckedUpdateWithoutTechnicianProfileInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
@@ -795,7 +795,7 @@ export type ServiceUncheckedUpdateManyWithoutTechnicianProfileInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -912,7 +912,7 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     categoryId: string
     name: string
     description: string
-    price: runtime.Decimal
+    price: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["service"]>
@@ -1346,7 +1346,7 @@ export interface ServiceFieldRefs {
   readonly categoryId: Prisma.FieldRef<"Service", 'String'>
   readonly name: Prisma.FieldRef<"Service", 'String'>
   readonly description: Prisma.FieldRef<"Service", 'String'>
-  readonly price: Prisma.FieldRef<"Service", 'Decimal'>
+  readonly price: Prisma.FieldRef<"Service", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Service", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Service", 'DateTime'>
 }

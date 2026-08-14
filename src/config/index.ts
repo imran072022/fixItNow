@@ -23,6 +23,9 @@ if (!process.env.JWT_ACCESS_EXPIRY || !process.env.JWT_REFRESH_EXPIRY) {
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("Stripe secret key is undefined");
 }
+if (!process.env.STRIPE_WEBHOOK_SECRET) {
+  throw new Error("Stripe webhook signing secret is missing");
+}
 
 const config = {
   database_url: process.env.DATABASE_URL,
@@ -35,6 +38,7 @@ const config = {
   jwt_refresh_token_expiry: process.env.JWT_REFRESH_EXPIRY as StringValue,
   stripe_secret_key: process.env.STRIPE_SECRET_KEY,
   frontend_url: process.env.FRONTEND_URL,
+  stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
 };
 
 export default config;

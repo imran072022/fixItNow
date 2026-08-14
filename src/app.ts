@@ -10,8 +10,15 @@ import { technicianRoutes } from "./modules/technicians/technician.route";
 import { adminRoutes } from "./modules/admin/admin.route";
 import { notFound } from "./middlewares/notFound";
 import { globalErrorHandler } from "./errors/globalErrorHandler";
+import { paymentController } from "./modules/payments/payment.controller";
 
 const app: Application = express();
+
+app.post(
+  "/api/payments/webhook",
+  express.raw({ type: "application/json" }),
+  paymentController.handleWebhook,
+);
 
 app.use(express.json());
 app.use(express.urlencoded());
