@@ -33,7 +33,7 @@ const handleWebhook = catchAsync(async (req: Request, res: Response) => {
     config.stripe_webhook_secret,
   );
 
-  await paymentsService.handleWebhook(event);
+  await paymentsService.handleStripeWebhook(event);
 });
 
 const confirmPayment = catchAsync(async (req, res) => {});

@@ -9,6 +9,10 @@ import httpStatus from "http-status";
 import { stripe } from "../../lib/stripe";
 import config from "../../config";
 import type Stripe from "stripe";
+import {
+  handleCheckoutSessionCompleted,
+  handlePaymentIntentFailed,
+} from "./payment.utils";
 
 const createCheckoutSession = async (userId: string, bookingId: string) => {
   const booking = await prisma.booking.findUnique({
@@ -17,7 +21,7 @@ const createCheckoutSession = async (userId: string, bookingId: string) => {
     },
     include: {
       service: true,
-      payment: true,
+      payments: true,
       customer: {
         select: {
           email: true,
@@ -40,13 +44,17 @@ const createCheckoutSession = async (userId: string, bookingId: string) => {
       "Only accepted bookings can be paid",
     );
   }
-  if (booking.payment?.status === PaymentStatus.COMPLETED) {
+  const completedPayment = booking.payments.find(
+    (payment) => payment.status === PaymentStatus.COMPLETED,
+  );
+
+  if (completedPayment) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       "This booking has already been paid",
     );
   }
-  const amountInCents = booking.service.price;
+
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     customer_email: booking.customer.email,
@@ -57,91 +65,34 @@ const createCheckoutSession = async (userId: string, bookingId: string) => {
           product_data: {
             name: booking.service.name,
           },
-          unit_amount: amountInCents,
+          unit_amount: booking.service.price,
         },
         quantity: 1,
       },
     ],
     metadata: { bookingId },
+    payment_intent_data: {
+      metadata: {
+        bookingId,
+      },
+    },
     success_url: `${config.frontend_url}/payment/success?bookingId=${bookingId}`,
     cancel_url: `${config.frontend_url}/payment/cancel?bookingId=${bookingId}`,
   });
   return { checkoutUrl: session.url };
 };
 
-const handleWebhook = async (event: Stripe.Event) => {
+const handleStripeWebhook = async (event: Stripe.Event) => {
   console.log("Event", event);
-  console.log("Data object", event.data.object);
-  if (event.type !== "checkout.session.completed") {
-    return;
+  switch (event.type) {
+    case "checkout.session.completed":
+      return handleCheckoutSessionCompleted(event);
+    case "payment_intent.payment_failed":
+      return handlePaymentIntentFailed(event);
+    default:
+      console.log(`Unhandled Stripe event: ${event.type}`);
+      return;
   }
-
-  const session = event.data.object as Stripe.Checkout.Session;
-  // validate the booking
-  const bookingId = session.metadata?.bookingId;
-  if (!bookingId) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "Booking ID is missing from Stripe session metadata",
-    );
-  }
-  const booking = await prisma.booking.findUnique({
-    where: {
-      id: bookingId,
-    },
-    include: {
-      payment: true,
-    },
-  });
-  if (!booking) {
-    throw new AppError(httpStatus.NOT_FOUND, "Booking doesn't exist");
-  }
-  if (booking.payment?.status === PaymentStatus.COMPLETED) {
-    return;
-  }
-  // validate the payment intent ID
-  const paymentIntentId = session.payment_intent;
-  if (!paymentIntentId || typeof paymentIntentId !== "string") {
-    throw new AppError(httpStatus.BAD_REQUEST, "Payment intent is missing");
-  }
-  // validate the amount
-  const amount = session.amount_total;
-  if (amount === null) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "Payment amount is missing from Stripe session",
-    );
-  }
-  // Query "Payment" and "Booking" tables
-  await prisma.$transaction([
-    prisma.payment.upsert({
-      where: {
-        bookingId: booking.id,
-      },
-      create: {
-        bookingId: booking.id,
-        amount,
-        provider: PaymentProvider.STRIPE,
-        transactionId: paymentIntentId,
-        status: PaymentStatus.COMPLETED,
-        paidAt: new Date(),
-      },
-      update: {
-        transactionId: paymentIntentId,
-        status: PaymentStatus.COMPLETED,
-        paidAt: new Date(),
-      },
-    }),
-
-    prisma.booking.update({
-      where: {
-        id: booking.id,
-      },
-      data: {
-        status: BookingStatus.PAID,
-      },
-    }),
-  ]);
 };
 
 const confirmPayment = async () => {};
@@ -150,7 +101,7 @@ const getSinglePayment = async () => {};
 
 export const paymentsService = {
   createCheckoutSession,
-  handleWebhook,
+  handleStripeWebhook,
   confirmPayment,
   getAllPayments,
   getSinglePayment,

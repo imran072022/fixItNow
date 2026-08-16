@@ -11,7 +11,7 @@ model Booking {
   location           String
   bookingDate        DateTime
   status             BookingStatus        @default(REQUESTED)
-  payment            Payment?
+  payments           Payment[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
 
