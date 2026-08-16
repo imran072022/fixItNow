@@ -95,8 +95,18 @@ const handleStripeWebhook = async (event: Stripe.Event) => {
   }
 };
 
+const getAllPayments = async (userId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: {
+      booking: {
+        customerId: userId,
+      },
+    },
+  });
+  return payments;
+};
+
 const confirmPayment = async () => {};
-const getAllPayments = async () => {};
 const getSinglePayment = async () => {};
 
 export const paymentsService = {

@@ -249,26 +249,113 @@ const updateBookingStatus = async (
     throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
   }
 
-  // Make sure this technician owns the service
-  if (booking.technicianProfile.userId !== userId) {
+  const isCustomer = booking.customerId === userId;
+
+  const isTechnician = booking.technicianProfile.userId === userId;
+
+  if (!isCustomer && !isTechnician) {
     throw new AppError(
       httpStatus.FORBIDDEN,
       "You are not allowed to update this booking",
     );
   }
 
-  // Only REQUESTED bookings can be accepted or denied
-  if (booking.status === BookingStatus.REQUESTED) {
-    const result = prisma.booking.update({
-      where: {
-        id: bookingId,
-      },
-      data: {
-        status,
-      },
-    });
-    return result;
+  // Customer can cancel before the job starts
+  if (isCustomer && status === BookingStatus.CANCELLED) {
+    if (
+      booking.status === BookingStatus.REQUESTED ||
+      booking.status === BookingStatus.ACCEPTED ||
+      booking.status === BookingStatus.PAID
+    ) {
+      return prisma.booking.update({
+        where: {
+          id: bookingId,
+        },
+        data: {
+          status: BookingStatus.CANCELLED,
+        },
+      });
+    }
+
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Booking cannot be cancelled at this stage",
+    );
   }
+
+  // Technician accepts or denies a requested booking
+  if (isTechnician && booking.status === BookingStatus.REQUESTED) {
+    if (status === BookingStatus.ACCEPTED || status === BookingStatus.DENIED) {
+      return prisma.booking.update({
+        where: {
+          id: bookingId,
+        },
+        data: {
+          status,
+        },
+      });
+    }
+
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Requested booking can only be accepted or denied",
+    );
+  }
+
+  // Technician starts a paid booking
+  if (isTechnician && booking.status === BookingStatus.PAID) {
+    if (status === BookingStatus.IN_PROGRESS) {
+      return prisma.booking.update({
+        where: {
+          id: bookingId,
+        },
+        data: {
+          status: BookingStatus.IN_PROGRESS,
+        },
+      });
+    }
+
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Paid booking can only be started",
+    );
+  }
+
+  // Technician completes an in-progress booking
+  if (isTechnician && booking.status === BookingStatus.IN_PROGRESS) {
+    if (status === BookingStatus.COMPLETED) {
+      return prisma.booking.update({
+        where: {
+          id: bookingId,
+        },
+        data: {
+          status: BookingStatus.COMPLETED,
+        },
+      });
+    }
+
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "In-progress booking can only be completed",
+    );
+  }
+
+  // No transition is allowed from terminal states
+  if (
+    booking.status === BookingStatus.DENIED ||
+    booking.status === BookingStatus.CANCELLED ||
+    booking.status === BookingStatus.COMPLETED
+  ) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "This booking can no longer be updated",
+    );
+  }
+
+  throw new AppError(
+    httpStatus.BAD_REQUEST,
+    "Invalid booking status transition",
+  );
 };
 
 export const bookingService = {
