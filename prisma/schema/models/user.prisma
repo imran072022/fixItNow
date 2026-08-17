@@ -3,6 +3,7 @@ model User {
   name               String
   email              String               @unique
   password           String
+  photoUrl           String?
   role               Role                 
   status             UserStatus           @default(ACTIVE)
   technicianProfile  TechnicianProfile?

@@ -5,12 +5,13 @@ import { bookingRoutes } from "./modules/bookings/booking.route";
 import { categoryRoutes } from "./modules/categories/category.route";
 import { paymentRoutes } from "./modules/payments/payment.route";
 import { serviceRoutes } from "./modules/services/service.route";
-import { reviewRoutes } from "./modules/reviews/reviews.route";
+import { reviewRoutes } from "./modules/review/review.route";
 import { technicianRoutes } from "./modules/technicians/technician.route";
 import { adminRoutes } from "./modules/admin/admin.route";
 import { notFound } from "./middlewares/notFound";
 import { globalErrorHandler } from "./errors/globalErrorHandler";
 import { paymentController } from "./modules/payments/payment.controller";
+import { profileRoutes } from "./modules/profile/profile.route";
 
 const app: Application = express();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api", profileRoutes);
 app.use("/api", bookingRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api/payments", paymentRoutes);

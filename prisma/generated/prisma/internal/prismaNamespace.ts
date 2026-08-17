@@ -1112,7 +1112,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 export const ReviewScalarFieldEnum = {
   id: 'id',
   reviewerId: 'reviewerId',
-  technicianProfileId: 'technicianProfileId',
+  bookingId: 'bookingId',
   rating: 'rating',
   review: 'review',
   createdAt: 'createdAt',
@@ -1139,7 +1139,6 @@ export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeo
 export const TechnicianProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  photoUrl: 'photoUrl',
   dob: 'dob',
   location: 'location',
   experience: 'experience',
@@ -1156,6 +1155,8 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
+  phone: 'phone',
+  photoUrl: 'photoUrl',
   role: 'role',
   status: 'status',
   createdAt: 'createdAt',

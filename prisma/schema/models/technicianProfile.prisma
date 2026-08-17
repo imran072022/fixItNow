@@ -2,7 +2,6 @@ model TechnicianProfile {
   id                 String               @id @default(uuid())
   userId             String               @unique
   user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  photoUrl           String?
   dob                DateTime?
   location           String?
   experience         Int                  @default(0)
@@ -10,7 +9,6 @@ model TechnicianProfile {
   availabilitySlots  AvailabilitySlot[]
   services           Service[]
   bookings           Booking[]            @relation("TechnicianBookings")
-  reviews            Review[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
 

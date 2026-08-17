@@ -4,9 +4,9 @@ model Booking {
   customer           User                 @relation("CustomerBookings", fields: [customerId], references: [id], onDelete: Cascade)
   technicianProfileId String
   technicianProfile   TechnicianProfile  @relation("TechnicianBookings", fields: [technicianProfileId], references: [id], onDelete: Cascade)
-
   serviceId          String
   service            Service              @relation(fields: [serviceId], references: [id])
+  review             Review?
   bookingDetails     String
   location           String
   bookingDate        DateTime

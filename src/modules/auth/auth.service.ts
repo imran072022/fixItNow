@@ -13,6 +13,7 @@ import { UserStatus } from "../../../prisma/generated/prisma/enums";
 
 const registerUser = async (payload: UserRegisterPayload) => {
   const { name, email, password, role } = payload;
+
   const hashedPassword = await bcrypt.hash(
     password,
     Number(config.bcrypt_salt_round),

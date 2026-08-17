@@ -30,27 +30,6 @@ const getATechnicianProfile = catchAsync(
   },
 );
 
-const getMyProfile = catchAsync(async (req: Request, res: Response) => {
-  const myProfile = await technicianService.getMyProfile(req.user.id);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    message: "Profile retrieved successfully",
-    data: myProfile,
-  });
-});
-
-const updateProfile = catchAsync(async (req: Request, res: Response) => {
-  const updatedProfile = await technicianService.updateProfile(
-    req.body,
-    req.user.id,
-  );
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    message: "Technician profile updated successfully",
-    data: updatedProfile,
-  });
-});
-
 const setAvailability = catchAsync(async (req: Request, res: Response) => {
   const slot = await technicianService.setAvailability(req.body, req.user.id);
   sendResponse(res, {
@@ -63,7 +42,5 @@ const setAvailability = catchAsync(async (req: Request, res: Response) => {
 export const technicianController = {
   getTechnicianProfiles,
   getATechnicianProfile,
-  getMyProfile,
-  updateProfile,
   setAvailability,
 };

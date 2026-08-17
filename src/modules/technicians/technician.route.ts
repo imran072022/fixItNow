@@ -4,7 +4,6 @@ import { validateRequest } from "../../middlewares/validateRequest";
 import {
   availabilitySlotSchema,
   getTechnicianSchema,
-  updateProfileSchema,
 } from "./technician.validation";
 import { authentication } from "../../middlewares/authentication";
 import { authorization } from "../../middlewares/authorization";
@@ -15,28 +14,11 @@ const router = Router();
 // everyone can get/browse all technicians in a page (apply SEARCH + FILTER)
 router.get("/technicians", technicianController.getTechnicianProfiles);
 
-// technicians can view their own profile.
-router.get(
-  "/technicians/me",
-  authentication,
-  authorization("TECHNICIAN"),
-  technicianController.getMyProfile,
-);
-
 // anyone can view a specific technician's profile
 router.get(
   "/technicians/:id",
   validateRequest(getTechnicianSchema),
   technicianController.getATechnicianProfile,
-);
-
-// technicians can update their own profile.
-router.patch(
-  "/technicians/me",
-  authentication,
-  authorization("TECHNICIAN"),
-  validateRequest(updateProfileSchema),
-  technicianController.updateProfile,
 );
 
 // technicians need to set/update availability slots

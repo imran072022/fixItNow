@@ -9,18 +9,6 @@ export const getTechnicianSchema = z.object({
     .strict(),
 });
 
-export const updateProfileSchema = z.object({
-  body: z
-    .object({
-      name: z.string().trim().optional(),
-      photoUrl: z.string().trim().optional(),
-      dob: z.coerce.date().optional(),
-      location: z.string().trim().optional(),
-      experience: z.number().optional(),
-    })
-    .strict(),
-});
-
 export const availabilitySlotSchema = z.object({
   body: z
     .object({
