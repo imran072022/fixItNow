@@ -106,13 +106,8 @@ const getAllPayments = async (userId: string) => {
   return payments;
 };
 
-const confirmPayment = async () => {};
-const getSinglePayment = async () => {};
-
 export const paymentsService = {
   createCheckoutSession,
   handleStripeWebhook,
-  confirmPayment,
   getAllPayments,
-  getSinglePayment,
 };

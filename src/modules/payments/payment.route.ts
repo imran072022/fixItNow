@@ -14,16 +14,13 @@ router.post(
   paymentController.createCheckoutSession,
 );
 
-// router.post("/webhook", paymentController.handleWebhook);
-// customers can view their payment history (all payment, search/filter not implemented)
+// router.post("/webhook", paymentController.handleWebhook); handled in app.ts
+// customers can view their payment history
 router.get(
   "/",
   authentication,
   authorization(Role.CUSTOMER),
   paymentController.getAllPayments,
 );
-
-router.post("/confirm", paymentController.confirmPayment);
-router.get("/:id", paymentController.getSinglePayment);
 
 export const paymentRoutes = router;

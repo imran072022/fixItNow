@@ -6,7 +6,7 @@ import { Role } from "../../../prisma/generated/prisma/enums";
 import { validateRequest } from "../../middlewares/validateRequest";
 import { reviewSchema } from "./review.validation";
 
-// We are keeping only one single POST route for reviews
+// We are keeping only one single POST api for reviews
 const router = Router();
 
 // logged in users can review a technician profile

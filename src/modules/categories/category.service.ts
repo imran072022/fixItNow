@@ -1,5 +1,7 @@
+import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
-import type { CategoryPayload } from "./category.type";
+import type { CategoryPayload, TUpdateCategoryBody } from "./category.type";
+import httpStatus from "http-status";
 
 const createCategory = async (payload: CategoryPayload) => {
   const result = await prisma.category.create({
@@ -22,8 +24,50 @@ const getCategories = async () => {
   });
   return categories;
 };
+const updateCategory = async (
+  categoryId: string,
+  payload: TUpdateCategoryBody,
+) => {
+  const { name } = payload;
+  const category = await prisma.category.findUnique({
+    where: {
+      id: categoryId,
+    },
+  });
+  if (!category) {
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found");
+  }
+
+  const result = await prisma.category.update({
+    where: {
+      id: categoryId,
+    },
+    data: {
+      name,
+    },
+  });
+  return result;
+};
+const deleteCategory = async (categoryId: string) => {
+  const category = await prisma.category.findUnique({
+    where: {
+      id: categoryId,
+    },
+  });
+  if (!category) {
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found");
+  }
+  const result = await prisma.category.delete({
+    where: {
+      id: categoryId,
+    },
+  });
+  return result;
+};
 
 export const categoryService = {
   createCategory,
   getCategories,
+  updateCategory,
+  deleteCategory,
 };

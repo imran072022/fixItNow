@@ -45,13 +45,8 @@ const getAllPayments = catchAsync(async (req, res) => {
   });
 });
 
-const confirmPayment = catchAsync(async (req, res) => {});
-const getSinglePayment = catchAsync(async (req, res) => {});
-
 export const paymentController = {
   createCheckoutSession,
   handleWebhook,
-  confirmPayment,
   getAllPayments,
-  getSinglePayment,
 };

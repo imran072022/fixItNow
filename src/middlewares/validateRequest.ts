@@ -9,10 +9,10 @@ export const validateRequest =
       params: req.params,
       query: req.query,
     });
+
     if (!parsed.success) {
       return next(parsed.error);
     }
-    Object.assign(req, parsed.data);
 
     next();
   };
