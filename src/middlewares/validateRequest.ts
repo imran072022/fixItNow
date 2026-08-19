@@ -13,6 +13,5 @@ export const validateRequest =
     if (!parsed.success) {
       return next(parsed.error);
     }
-
     next();
   };

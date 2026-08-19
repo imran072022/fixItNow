@@ -8,12 +8,13 @@ const getTechnicianProfiles = async () => {
   const technicianProfiles = await prisma.technicianProfile.findMany({
     select: {
       id: true,
-      photoUrl: true,
       location: true,
       experience: true,
       user: {
         select: {
           name: true,
+          phone: true,
+          photoUrl: true,
         },
       },
     },
@@ -27,18 +28,21 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
     },
     select: {
       id: true,
-      photoUrl: true,
       dob: true,
       location: true,
       experience: true,
       isOnVacation: true,
       createdAt: true,
+
       user: {
         select: {
           name: true,
           email: true,
+          phone: true,
+          photoUrl: true,
         },
       },
+
       availabilitySlots: {
         select: {
           id: true,
@@ -47,12 +51,14 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
           endMinute: true,
         },
       },
+
       services: {
         select: {
           id: true,
           name: true,
         },
       },
+
       reviews: {
         select: {
           id: true,
@@ -63,7 +69,28 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
       },
     },
   });
-  return technicianProfile;
+
+  const isProfileComplete =
+    !!technicianProfile.user.name &&
+    !!technicianProfile.user.photoUrl &&
+    !!technicianProfile.user.phone &&
+    !!technicianProfile.dob &&
+    !!technicianProfile.location;
+
+  const hasService = technicianProfile.services.length > 0;
+
+  const hasAvailability = technicianProfile.availabilitySlots.length > 0;
+
+  const isBookable =
+    isProfileComplete &&
+    hasService &&
+    hasAvailability &&
+    !technicianProfile.isOnVacation;
+
+  return {
+    ...technicianProfile,
+    isBookable,
+  };
 };
 
 const setAvailability = async (payload: AvailabilitySlot, userId: string) => {

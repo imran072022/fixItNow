@@ -10,7 +10,7 @@ export const updateProfileSchema = z.object({
         .regex(/^\+[1-9]\d{7,14}$/, "Invalid phone number")
         .optional(),
       photoUrl: z.string().trim().optional(),
-      dob: z.coerce.date().optional(),
+      dob: z.iso.datetime().optional(),
       location: z.string().trim().optional(),
       experience: z.number().optional(),
     })

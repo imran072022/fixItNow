@@ -20,7 +20,7 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   );
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: "Technician profile updated successfully",
+    message: "Profile updated successfully",
     data: updatedProfile,
   });
 });

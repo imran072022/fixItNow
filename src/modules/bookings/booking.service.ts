@@ -10,19 +10,13 @@ import type { BookingPayload } from "./booking.type";
 import httpStatus from "http-status";
 
 const createBooking = async (payload: BookingPayload, userId: string) => {
-  const { serviceId, bookingDate, location, bookingDetails } = payload;
-
-  // 1. Check customer
-  const customerExists = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-
-  if (!customerExists) {
-    throw new AppError(httpStatus.NOT_FOUND, "Customer doesn't exist");
-  }
-
+  const {
+    serviceId,
+    bookingDate: bookingDateString,
+    location,
+    bookingDetails,
+  } = payload;
+  const bookingDate = new Date(bookingDateString);
   // 2. Get the selected service + its technician
   const service = await prisma.service.findUnique({
     where: {
@@ -32,12 +26,6 @@ const createBooking = async (payload: BookingPayload, userId: string) => {
       technicianProfile: {
         include: {
           user: true,
-          _count: {
-            select: {
-              services: true,
-              availabilitySlots: true,
-            },
-          },
         },
       },
     },
@@ -53,7 +41,8 @@ const createBooking = async (payload: BookingPayload, userId: string) => {
   // 3. Check technician profile is complete
   if (
     !technician.name ||
-    !technicianProfile.photoUrl ||
+    !technician.photoUrl ||
+    !technician.phone ||
     !technicianProfile.dob ||
     !technicianProfile.location
   ) {
@@ -68,22 +57,6 @@ const createBooking = async (payload: BookingPayload, userId: string) => {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       "Technician is currently on vacation",
-    );
-  }
-
-  // 5. Check technician has at least one service
-  if (technicianProfile._count.services < 1) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "Technician has not created any services",
-    );
-  }
-
-  // 6. Check technician has at least one availability slot
-  if (technicianProfile._count.availabilitySlots < 1) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "Technician has not set any availability slots",
     );
   }
 

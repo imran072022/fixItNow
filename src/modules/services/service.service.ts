@@ -5,6 +5,7 @@ import httpStatus from "http-status";
 
 const createService = async (payload: servicePayload, userId: string) => {
   const { categoryId, name, description, price } = payload;
+  const priceInCents = price * 100;
   const category = await prisma.category.findUnique({
     where: {
       id: categoryId,
@@ -27,7 +28,7 @@ const createService = async (payload: servicePayload, userId: string) => {
       categoryId,
       name,
       description,
-      price,
+      price: priceInCents,
     },
   });
 

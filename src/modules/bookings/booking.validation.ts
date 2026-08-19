@@ -4,7 +4,7 @@ export const createBookingSchema = z.object({
   body: z
     .object({
       serviceId: z.uuid("Invalid service ID"),
-      bookingDate: z.coerce.date(),
+      bookingDate: z.iso.datetime({ offset: true }),
       location: z
         .string()
         .trim()
