@@ -1,3 +1,7 @@
 import { z } from "zod";
-import type { serviceSchema } from "./service.validation";
-export type servicePayload = z.infer<typeof serviceSchema>["body"];
+import type {
+  createServiceSchema,
+  getServicesSchema,
+} from "./service.validation";
+export type TCreateService = z.infer<typeof createServiceSchema>["body"];
+export type TGetServicesQuery = z.infer<typeof getServicesSchema>["query"];

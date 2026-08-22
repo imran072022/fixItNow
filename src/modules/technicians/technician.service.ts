@@ -1,25 +1,137 @@
+import type { Prisma } from "../../../prisma/generated/prisma/client";
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
-import type catchAsync from "../../utils/catchAsync";
-import type { AvailabilitySlot, TechnicianProfileId } from "./technician.type";
+import type {
+  AvailabilitySlot,
+  TechnicianProfileId,
+  TGetTechnicianProfilesQuery,
+} from "./technician.type";
 import httpStatus from "http-status";
 
-const getTechnicianProfiles = async () => {
-  const technicianProfiles = await prisma.technicianProfile.findMany({
-    select: {
-      id: true,
-      location: true,
-      experience: true,
-      user: {
-        select: {
-          name: true,
-          phone: true,
-          photoUrl: true,
+const getTechnicianProfiles = async (query: TGetTechnicianProfilesQuery) => {
+  const {
+    search,
+    category,
+    minExperience,
+    minRating,
+    sortBy,
+    sortOrder,
+    page = 1,
+    limit = 10,
+  } = query;
+  const where: Prisma.TechnicianProfileWhereInput = {
+    ...(search && {
+      OR: [
+        {
+          user: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          services: {
+            some: {
+              name: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          },
+        },
+        {
+          location: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      ],
+    }),
+
+    ...(category && {
+      services: {
+        some: {
+          category: {
+            name: {
+              contains: category,
+              mode: "insensitive",
+            },
+          },
         },
       },
+    }),
+
+    ...(minExperience !== undefined && {
+      experience: {
+        gte: minExperience,
+      },
+    }),
+
+    ...(minRating !== undefined && {
+      ratingAverage: {
+        gte: minRating,
+      },
+    }),
+  };
+
+  const orderBy: Prisma.TechnicianProfileOrderByWithRelationInput = {
+    ...(sortBy === "experience" && {
+      experience: sortOrder ?? "desc",
+    }),
+
+    ...(sortBy === "rating" && {
+      ratingAverage: sortOrder ?? "desc",
+    }),
+  };
+
+  const skip = (page - 1) * limit;
+
+  const [technicianProfiles, total] = await prisma.$transaction([
+    prisma.technicianProfile.findMany({
+      where,
+      orderBy,
+      skip,
+      take: limit,
+
+      select: {
+        id: true,
+        location: true,
+        experience: true,
+        ratingAverage: true,
+        reviewCount: true,
+
+        user: {
+          select: {
+            name: true,
+            phone: true,
+            photoUrl: true,
+          },
+        },
+
+        services: {
+          select: {
+            name: true,
+            price: true,
+          },
+        },
+      },
+    }),
+
+    prisma.technicianProfile.count({
+      where,
+    }),
+  ]);
+
+  return {
+    technicianProfiles,
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
     },
-  });
-  return technicianProfiles;
+  };
 };
 const getATechnicianProfile = async (id: TechnicianProfileId) => {
   const technicianProfile = await prisma.technicianProfile.findUniqueOrThrow({

@@ -3,6 +3,7 @@ import { technicianController } from "./technician.controller";
 import { validateRequest } from "../../middlewares/validateRequest";
 import {
   availabilitySlotSchema,
+  getTechnicianProfilesSchema,
   getTechnicianSchema,
 } from "./technician.validation";
 import { authentication } from "../../middlewares/authentication";
@@ -12,7 +13,11 @@ const router = Router();
 // We are keeping profiles only for technicians in this platform for assignment simplicity.
 
 // everyone can get/browse all technicians in a page (apply SEARCH + FILTER)
-router.get("/technicians", technicianController.getTechnicianProfiles);
+router.get(
+  "/technicians",
+  validateRequest(getTechnicianProfilesSchema),
+  technicianController.getTechnicianProfiles,
+);
 
 // anyone can view a specific technician's profile
 router.get(

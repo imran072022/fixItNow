@@ -3,6 +3,7 @@ import catchAsync from "../../utils/catchAsync";
 import { bookingService } from "./booking.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
+import type { TBookingParams } from "./booking.type";
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
   const booking = await bookingService.createBooking(req.body, req.user.id);
@@ -41,8 +42,21 @@ const updateBookingStatus = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getABooking = catchAsync(
+  async (req: Request<TBookingParams>, res: Response) => {
+    const { id } = req.params;
+    const result = await bookingService.getABooking(id, req.user.id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: "Booking retrieved successfully",
+      data: result,
+    });
+  },
+);
+
 export const bookingController = {
   createBooking,
   getAllBookings,
   updateBookingStatus,
+  getABooking,
 };

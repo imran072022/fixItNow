@@ -331,8 +331,51 @@ const updateBookingStatus = async (
   );
 };
 
+const getABooking = async (bookingId: string, userId: string) => {
+  const booking = await prisma.booking.findUnique({
+    where: {
+      id: bookingId,
+    },
+    include: {
+      service: {
+        select: {
+          id: true,
+          name: true,
+          price: true,
+        },
+      },
+      technicianProfile: {
+        select: {
+          location: true,
+          experience: true,
+          user: {
+            select: {
+              name: true,
+              photoUrl: true,
+              phone: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!booking) {
+    throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+  }
+  // Only the customer who created the booking can view it
+  if (booking.customerId !== userId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not allowed to view this booking",
+    );
+  }
+  return booking;
+};
+
 export const bookingService = {
   createBooking,
   getAllBookings,
   updateBookingStatus,
+  getABooking,
 };

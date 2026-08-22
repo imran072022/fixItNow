@@ -1,9 +1,10 @@
+import type { Prisma } from "../../../prisma/generated/prisma/client";
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
-import type { servicePayload } from "./service.type";
+import type { TCreateService, TGetServicesQuery } from "./service.type";
 import httpStatus from "http-status";
 
-const createService = async (payload: servicePayload, userId: string) => {
+const createService = async (payload: TCreateService, userId: string) => {
   const { categoryId, name, description, price } = payload;
   const priceInCents = price * 100;
   const category = await prisma.category.findUnique({
@@ -35,31 +36,116 @@ const createService = async (payload: servicePayload, userId: string) => {
   return service;
 };
 
-const getServices = async () => {
-  const services = await prisma.service.findMany({
-    select: {
-      id: true,
-      name: true,
-      description: true,
-      price: true,
-      createdAt: true,
-      updatedAt: true,
-      technicianProfile: {
-        select: {
-          id: true,
-          photoUrl: true,
+const getServices = async (query: TGetServicesQuery) => {
+  const {
+    search,
+    category,
+    minPrice,
+    maxPrice,
+    sortBy,
+    sortOrder,
+    page = 1,
+    limit = 10,
+  } = query;
+  const where: Prisma.ServiceWhereInput = {
+    ...(search && {
+      OR: [
+        {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
         },
-      },
+        {
+          description: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      ],
+    }),
+
+    ...(category && {
       category: {
-        select: {
-          id: true,
-          name: true,
+        name: {
+          contains: category,
+          mode: "insensitive",
         },
       },
-      bookings: true,
+    }),
+
+    ...((minPrice !== undefined || maxPrice !== undefined) && {
+      price: {
+        ...(minPrice !== undefined && {
+          gte: minPrice,
+        }),
+        ...(maxPrice !== undefined && {
+          lte: maxPrice,
+        }),
+      },
+    }),
+  };
+
+  const orderBy: Prisma.ServiceOrderByWithRelationInput = {
+    ...(sortBy === "price" && {
+      price: sortOrder ?? "asc",
+    }),
+
+    ...(sortBy === "createdAt" && {
+      createdAt: sortOrder ?? "desc",
+    }),
+  };
+
+  const skip = (page - 1) * limit;
+
+  const [services, total] = await prisma.$transaction([
+    prisma.service.findMany({
+      where,
+      orderBy,
+      skip,
+      take: limit,
+
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        createdAt: true,
+        updatedAt: true,
+
+        technicianProfile: {
+          select: {
+            id: true,
+            location: true,
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    }),
+
+    prisma.service.count({
+      where,
+    }),
+  ]);
+
+  return {
+    services,
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
     },
-  });
-  return services;
+  };
 };
 
 export const serviceService = {

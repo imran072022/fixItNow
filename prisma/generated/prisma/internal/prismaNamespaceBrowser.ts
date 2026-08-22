@@ -165,6 +165,8 @@ export const TechnicianProfileScalarFieldEnum = {
   location: 'location',
   experience: 'experience',
   isOnVacation: 'isOnVacation',
+  ratingAverage: 'ratingAverage',
+  reviewCount: 'reviewCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -176,8 +178,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
-  password: 'password',
   phone: 'phone',
+  password: 'password',
   photoUrl: 'photoUrl',
   role: 'role',
   status: 'status',

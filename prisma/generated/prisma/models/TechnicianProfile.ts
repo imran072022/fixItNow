@@ -28,10 +28,14 @@ export type AggregateTechnicianProfile = {
 
 export type TechnicianProfileAvgAggregateOutputType = {
   experience: number | null
+  ratingAverage: number | null
+  reviewCount: number | null
 }
 
 export type TechnicianProfileSumAggregateOutputType = {
   experience: number | null
+  ratingAverage: number | null
+  reviewCount: number | null
 }
 
 export type TechnicianProfileMinAggregateOutputType = {
@@ -41,6 +45,8 @@ export type TechnicianProfileMinAggregateOutputType = {
   location: string | null
   experience: number | null
   isOnVacation: boolean | null
+  ratingAverage: number | null
+  reviewCount: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +58,8 @@ export type TechnicianProfileMaxAggregateOutputType = {
   location: string | null
   experience: number | null
   isOnVacation: boolean | null
+  ratingAverage: number | null
+  reviewCount: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,6 +71,8 @@ export type TechnicianProfileCountAggregateOutputType = {
   location: number
   experience: number
   isOnVacation: number
+  ratingAverage: number
+  reviewCount: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -71,10 +81,14 @@ export type TechnicianProfileCountAggregateOutputType = {
 
 export type TechnicianProfileAvgAggregateInputType = {
   experience?: true
+  ratingAverage?: true
+  reviewCount?: true
 }
 
 export type TechnicianProfileSumAggregateInputType = {
   experience?: true
+  ratingAverage?: true
+  reviewCount?: true
 }
 
 export type TechnicianProfileMinAggregateInputType = {
@@ -84,6 +98,8 @@ export type TechnicianProfileMinAggregateInputType = {
   location?: true
   experience?: true
   isOnVacation?: true
+  ratingAverage?: true
+  reviewCount?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -95,6 +111,8 @@ export type TechnicianProfileMaxAggregateInputType = {
   location?: true
   experience?: true
   isOnVacation?: true
+  ratingAverage?: true
+  reviewCount?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +124,8 @@ export type TechnicianProfileCountAggregateInputType = {
   location?: true
   experience?: true
   isOnVacation?: true
+  ratingAverage?: true
+  reviewCount?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -204,6 +224,8 @@ export type TechnicianProfileGroupByOutputType = {
   location: string | null
   experience: number
   isOnVacation: boolean
+  ratingAverage: number
+  reviewCount: number
   createdAt: Date
   updatedAt: Date
   _count: TechnicianProfileCountAggregateOutputType | null
@@ -238,6 +260,8 @@ export type TechnicianProfileWhereInput = {
   location?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
   experience?: Prisma.IntFilter<"TechnicianProfile"> | number
   isOnVacation?: Prisma.BoolFilter<"TechnicianProfile"> | boolean
+  ratingAverage?: Prisma.FloatFilter<"TechnicianProfile"> | number
+  reviewCount?: Prisma.IntFilter<"TechnicianProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"TechnicianProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TechnicianProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -253,6 +277,8 @@ export type TechnicianProfileOrderByWithRelationInput = {
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   experience?: Prisma.SortOrder
   isOnVacation?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -271,6 +297,8 @@ export type TechnicianProfileWhereUniqueInput = Prisma.AtLeast<{
   location?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
   experience?: Prisma.IntFilter<"TechnicianProfile"> | number
   isOnVacation?: Prisma.BoolFilter<"TechnicianProfile"> | boolean
+  ratingAverage?: Prisma.FloatFilter<"TechnicianProfile"> | number
+  reviewCount?: Prisma.IntFilter<"TechnicianProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"TechnicianProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TechnicianProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -286,6 +314,8 @@ export type TechnicianProfileOrderByWithAggregationInput = {
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   experience?: Prisma.SortOrder
   isOnVacation?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TechnicianProfileCountOrderByAggregateInput
@@ -305,6 +335,8 @@ export type TechnicianProfileScalarWhereWithAggregatesInput = {
   location?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
   experience?: Prisma.IntWithAggregatesFilter<"TechnicianProfile"> | number
   isOnVacation?: Prisma.BoolWithAggregatesFilter<"TechnicianProfile"> | boolean
+  ratingAverage?: Prisma.FloatWithAggregatesFilter<"TechnicianProfile"> | number
+  reviewCount?: Prisma.IntWithAggregatesFilter<"TechnicianProfile"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TechnicianProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TechnicianProfile"> | Date | string
 }
@@ -315,6 +347,8 @@ export type TechnicianProfileCreateInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
@@ -330,6 +364,8 @@ export type TechnicianProfileUncheckedCreateInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
@@ -343,6 +379,8 @@ export type TechnicianProfileUpdateInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
@@ -358,6 +396,8 @@ export type TechnicianProfileUncheckedUpdateInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
@@ -372,6 +412,8 @@ export type TechnicianProfileCreateManyInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -382,6 +424,8 @@ export type TechnicianProfileUpdateManyMutationInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -393,6 +437,8 @@ export type TechnicianProfileUncheckedUpdateManyInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -409,12 +455,16 @@ export type TechnicianProfileCountOrderByAggregateInput = {
   location?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   isOnVacation?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TechnicianProfileAvgOrderByAggregateInput = {
   experience?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
 }
 
 export type TechnicianProfileMaxOrderByAggregateInput = {
@@ -424,6 +474,8 @@ export type TechnicianProfileMaxOrderByAggregateInput = {
   location?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   isOnVacation?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -435,12 +487,16 @@ export type TechnicianProfileMinOrderByAggregateInput = {
   location?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   isOnVacation?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TechnicianProfileSumOrderByAggregateInput = {
   experience?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
 }
 
 export type TechnicianProfileNullableScalarRelationFilter = {
@@ -498,6 +554,14 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type TechnicianProfileCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.TechnicianProfileCreateWithoutUserInput, Prisma.TechnicianProfileUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.TechnicianProfileCreateOrConnectWithoutUserInput
@@ -536,6 +600,8 @@ export type TechnicianProfileCreateWithoutAvailabilitySlotsInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
@@ -550,6 +616,8 @@ export type TechnicianProfileUncheckedCreateWithoutAvailabilitySlotsInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutTechnicianProfileInput
@@ -578,6 +646,8 @@ export type TechnicianProfileUpdateWithoutAvailabilitySlotsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
@@ -592,6 +662,8 @@ export type TechnicianProfileUncheckedUpdateWithoutAvailabilitySlotsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutTechnicianProfileNestedInput
@@ -604,6 +676,8 @@ export type TechnicianProfileCreateWithoutBookingsInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
@@ -618,6 +692,8 @@ export type TechnicianProfileUncheckedCreateWithoutBookingsInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
@@ -646,6 +722,8 @@ export type TechnicianProfileUpdateWithoutBookingsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
@@ -660,6 +738,8 @@ export type TechnicianProfileUncheckedUpdateWithoutBookingsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
@@ -672,6 +752,8 @@ export type TechnicianProfileCreateWithoutServicesInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
@@ -686,6 +768,8 @@ export type TechnicianProfileUncheckedCreateWithoutServicesInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
@@ -714,6 +798,8 @@ export type TechnicianProfileUpdateWithoutServicesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
@@ -728,6 +814,8 @@ export type TechnicianProfileUncheckedUpdateWithoutServicesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
@@ -740,6 +828,8 @@ export type TechnicianProfileCreateWithoutUserInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotCreateNestedManyWithoutTechnicianProfileInput
@@ -753,6 +843,8 @@ export type TechnicianProfileUncheckedCreateWithoutUserInput = {
   location?: string | null
   experience?: number
   isOnVacation?: boolean
+  ratingAverage?: number
+  reviewCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedCreateNestedManyWithoutTechnicianProfileInput
@@ -782,6 +874,8 @@ export type TechnicianProfileUpdateWithoutUserInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUpdateManyWithoutTechnicianProfileNestedInput
@@ -795,6 +889,8 @@ export type TechnicianProfileUncheckedUpdateWithoutUserInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   isOnVacation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilitySlots?: Prisma.AvailabilitySlotUncheckedUpdateManyWithoutTechnicianProfileNestedInput
@@ -858,6 +954,8 @@ export type TechnicianProfileSelect<ExtArgs extends runtime.Types.Extensions.Int
   location?: boolean
   experience?: boolean
   isOnVacation?: boolean
+  ratingAverage?: boolean
+  reviewCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -874,6 +972,8 @@ export type TechnicianProfileSelectCreateManyAndReturn<ExtArgs extends runtime.T
   location?: boolean
   experience?: boolean
   isOnVacation?: boolean
+  ratingAverage?: boolean
+  reviewCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -886,6 +986,8 @@ export type TechnicianProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   location?: boolean
   experience?: boolean
   isOnVacation?: boolean
+  ratingAverage?: boolean
+  reviewCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -898,11 +1000,13 @@ export type TechnicianProfileSelectScalar = {
   location?: boolean
   experience?: boolean
   isOnVacation?: boolean
+  ratingAverage?: boolean
+  reviewCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TechnicianProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "dob" | "location" | "experience" | "isOnVacation" | "createdAt" | "updatedAt", ExtArgs["result"]["technicianProfile"]>
+export type TechnicianProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "dob" | "location" | "experience" | "isOnVacation" | "ratingAverage" | "reviewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["technicianProfile"]>
 export type TechnicianProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   availabilitySlots?: boolean | Prisma.TechnicianProfile$availabilitySlotsArgs<ExtArgs>
@@ -932,6 +1036,8 @@ export type $TechnicianProfilePayload<ExtArgs extends runtime.Types.Extensions.I
     location: string | null
     experience: number
     isOnVacation: boolean
+    ratingAverage: number
+    reviewCount: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["technicianProfile"]>
@@ -1367,6 +1473,8 @@ export interface TechnicianProfileFieldRefs {
   readonly location: Prisma.FieldRef<"TechnicianProfile", 'String'>
   readonly experience: Prisma.FieldRef<"TechnicianProfile", 'Int'>
   readonly isOnVacation: Prisma.FieldRef<"TechnicianProfile", 'Boolean'>
+  readonly ratingAverage: Prisma.FieldRef<"TechnicianProfile", 'Float'>
+  readonly reviewCount: Prisma.FieldRef<"TechnicianProfile", 'Int'>
   readonly createdAt: Prisma.FieldRef<"TechnicianProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TechnicianProfile", 'DateTime'>
 }

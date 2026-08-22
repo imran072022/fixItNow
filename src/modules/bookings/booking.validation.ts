@@ -16,3 +16,11 @@ export const createBookingSchema = z.object({
     })
     .strict(),
 });
+
+export const getBookingParamSchema = z.object({
+  params: z
+    .object({
+      id: z.uuid("Invalid booking ID"),
+    })
+    .strict(),
+});

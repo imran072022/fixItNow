@@ -4,7 +4,10 @@ import { authentication } from "../../middlewares/authentication";
 import { authorization } from "../../middlewares/authorization";
 import { bookingController } from "./booking.controller";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { createBookingSchema } from "./booking.validation";
+import {
+  createBookingSchema,
+  getBookingParamSchema,
+} from "./booking.validation";
 
 const router = Router();
 
@@ -33,6 +36,12 @@ router.patch(
   bookingController.updateBookingStatus,
 );
 
-// implement later that users can track their booking status and get notified when the status changes
-
+// customers can track their booking status
+router.get(
+  "/bookings/:id",
+  authentication,
+  authorization("CUSTOMER"),
+  validateRequest(getBookingParamSchema),
+  bookingController.getABooking,
+);
 export const bookingRoutes = router;

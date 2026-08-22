@@ -3,12 +3,37 @@ import catchAsync from "../../utils/catchAsync";
 import { technicianService } from "./technician.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
-import type { TechnicianProfileId } from "./technician.type";
+import type {
+  TAvailabilitySlot,
+  TGetTechnicianProfilesQuery,
+  TechnicianProfileId,
+} from "./technician.type";
 
-// searching + filtering left
+type TechnicianProfilesLocals = {
+  validatedData: {
+    query: TGetTechnicianProfilesQuery;
+  };
+};
+
+type TechnicianProfileLocals = {
+  validatedData: {
+    params: {
+      id: TechnicianProfileId;
+    };
+  };
+};
+
+type AvailabilityLocals = {
+  validatedData: {
+    body: TAvailabilitySlot;
+  };
+};
+
 const getTechnicianProfiles = catchAsync(
-  async (req: Request, res: Response) => {
-    const technicianProfiles = await technicianService.getTechnicianProfiles();
+  async (_req: Request, res: Response<unknown, TechnicianProfilesLocals>) => {
+    const technicianProfiles = await technicianService.getTechnicianProfiles(
+      res.locals.validatedData.query,
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       message: "Technician profiles fetched successfully ",
@@ -18,9 +43,9 @@ const getTechnicianProfiles = catchAsync(
 );
 // more info can be included
 const getATechnicianProfile = catchAsync(
-  async (req: Request, res: Response) => {
+  async (_req: Request, res: Response<unknown, TechnicianProfileLocals>) => {
     const technicianProfile = await technicianService.getATechnicianProfile(
-      req.params.id as TechnicianProfileId,
+      res.locals.validatedData.params.id,
     );
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -30,14 +55,19 @@ const getATechnicianProfile = catchAsync(
   },
 );
 
-const setAvailability = catchAsync(async (req: Request, res: Response) => {
-  const slot = await technicianService.setAvailability(req.body, req.user.id);
-  sendResponse(res, {
-    statusCode: httpStatus.CREATED,
-    message: "Availability slot added successfully",
-    data: slot,
-  });
-});
+const setAvailability = catchAsync(
+  async (req: Request, res: Response<unknown, AvailabilityLocals>) => {
+    const slot = await technicianService.setAvailability(
+      res.locals.validatedData.body,
+      req.user.id,
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      message: "Availability slot added successfully",
+      data: slot,
+    });
+  },
+);
 
 export const technicianController = {
   getTechnicianProfiles,
