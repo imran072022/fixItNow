@@ -12,6 +12,7 @@ import { notFound } from "./middlewares/notFound";
 import { globalErrorHandler } from "./errors/globalErrorHandler";
 import { paymentController } from "./modules/payments/payment.controller";
 import { profileRoutes } from "./modules/profile/profile.route";
+import cors from "cors";
 
 const app: Application = express();
 
@@ -24,6 +25,12 @@ app.post(
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  }),
+);
 
 app.use("/api/auth", authRoutes);
 app.use("/api", profileRoutes);

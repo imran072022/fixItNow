@@ -9,6 +9,19 @@ import type {
   TUpdateCategoryParams,
 } from "./category.type";
 
+type UpdateCategoryLocals = {
+  validatedData: {
+    params: TUpdateCategoryParams;
+    body: TUpdateCategoryBody;
+  };
+};
+
+type DeleteCategoryLocals = {
+  validatedData: {
+    params: TDeleteCategoryParams;
+  };
+};
+
 const createCategory = catchAsync(async (req: Request, res: Response) => {
   const result = await categoryService.createCategory(req.body);
   sendResponse(res, {
@@ -28,13 +41,10 @@ const getCategories = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateCategory = catchAsync(
-  async (
-    req: Request<TUpdateCategoryParams, {}, TUpdateCategoryBody>,
-    res: Response,
-  ) => {
+  async (_req: Request, res: Response<unknown, UpdateCategoryLocals>) => {
     const result = await categoryService.updateCategory(
-      req.params.id,
-      req.body,
+      res.locals.validatedData.params.id,
+      res.locals.validatedData.body,
     );
 
     sendResponse(res, {
@@ -46,8 +56,10 @@ const updateCategory = catchAsync(
 );
 
 const deleteCategory = catchAsync(
-  async (req: Request<TDeleteCategoryParams>, res: Response) => {
-    const result = await categoryService.deleteCategory(req.params.id);
+  async (_req: Request, res: Response<unknown, DeleteCategoryLocals>) => {
+    const result = await categoryService.deleteCategory(
+      res.locals.validatedData.params.id,
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       message: "Category deleted successfully",

@@ -5,6 +5,12 @@ import { adminService } from "./admin.service";
 import sendResponse from "../../utils/sendResponse";
 import type { TBanUnbanUserParams, TGetAllUsersQuery } from "./admin.type";
 
+type BanUnbanUserLocals = {
+  validatedData: {
+    params: TBanUnbanUserParams;
+  };
+};
+
 const getAllUsers = catchAsync(
   async (req: Request<{}, {}, {}, TGetAllUsersQuery>, res: Response) => {
     const { role } = req.query;
@@ -18,8 +24,8 @@ const getAllUsers = catchAsync(
 );
 
 const banUnbanUser = catchAsync(
-  async (req: Request<TBanUnbanUserParams>, res: Response) => {
-    const { id } = req.params;
+  async (_req: Request, res: Response<unknown, BanUnbanUserLocals>) => {
+    const { id } = res.locals.validatedData.params;
     const result = await adminService.banUnbanUser(id);
     sendResponse(res, {
       statusCode: httpStatus.OK,

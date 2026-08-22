@@ -2,7 +2,7 @@ import type { Prisma } from "../../../prisma/generated/prisma/client";
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
 import type {
-  AvailabilitySlot,
+  TAvailabilitySlot,
   TechnicianProfileId,
   TGetTechnicianProfilesQuery,
 } from "./technician.type";
@@ -205,7 +205,7 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
   };
 };
 
-const setAvailability = async (payload: AvailabilitySlot, userId: string) => {
+const setAvailability = async (payload: TAvailabilitySlot, userId: string) => {
   const profile = await prisma.technicianProfile.findUnique({
     where: {
       userId,
