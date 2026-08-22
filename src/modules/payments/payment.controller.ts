@@ -26,7 +26,12 @@ const handleWebhook = catchAsync(async (req: Request, res: Response) => {
   if (!signature) {
     throw new AppError(httpStatus.BAD_REQUEST, "Missing Stripe signature");
   }
-
+  if (!config.stripe_webhook_secret) {
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "Stripe webhook is not configured",
+    );
+  }
   const event = stripe.webhooks.constructEvent(
     req.body,
     signature,
