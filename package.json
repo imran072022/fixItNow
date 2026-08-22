@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
-    "start": "node dist/src/server.js"
+    "build": "tsup",
+    "start": "node dist/server.js"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
@@ -38,6 +38,7 @@
     "ms": "^2.1.3",
     "pg": "^8.22.0",
     "stripe": "^22.5.0",
+    "tsup": "^8.5.1",
     "zod": "^4.4.3"
   }
 }
