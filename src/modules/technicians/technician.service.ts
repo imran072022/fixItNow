@@ -144,6 +144,8 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
       location: true,
       experience: true,
       isOnVacation: true,
+      ratingAverage: true,
+      reviewCount: true,
       createdAt: true,
 
       user: {
@@ -171,12 +173,27 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
         },
       },
 
-      reviews: {
+      bookings: {
+        where: {
+          review: {
+            isNot: null,
+          },
+        },
         select: {
-          id: true,
-          rating: true,
-          review: true,
-          createdAt: true,
+          review: {
+            select: {
+              id: true,
+              rating: true,
+              review: true,
+              createdAt: true,
+              reviewer: {
+                select: {
+                  name: true,
+                  photoUrl: true,
+                },
+              },
+            },
+          },
         },
       },
     },
