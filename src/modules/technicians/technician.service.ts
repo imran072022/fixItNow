@@ -170,6 +170,8 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
         select: {
           id: true,
           name: true,
+          price: true,
+          description: true,
         },
       },
 
