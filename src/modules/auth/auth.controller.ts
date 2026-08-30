@@ -21,13 +21,13 @@ const login = catchAsync(async (req: Request, res: Response) => {
   res.cookie("accessToken", result.accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
+    sameSite: "lax",
     maxAge: 1000 * 60 * 60,
   });
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
+    sameSite: "lax",
     maxAge: 1000 * 60 * 60 * 24 * 7,
   });
 

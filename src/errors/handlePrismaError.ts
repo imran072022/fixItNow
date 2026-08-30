@@ -12,10 +12,42 @@ export const handlePrismaError = (
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     let statusCode = 400;
     let message = "Database request failed.";
+    let errors: TErrorResponse["errors"];
 
     if (error.code === "P2002") {
       statusCode = 409;
-      message = "A duplicate value was provided for a unique field.";
+      message = "A unique value already exists.";
+
+      const meta = error.meta as
+        | {
+            driverAdapterError?: {
+              cause?: {
+                constraint?: {
+                  fields?: unknown;
+                };
+              };
+            };
+          }
+        | undefined;
+
+      const fields = meta?.driverAdapterError?.cause?.constraint?.fields;
+
+      if (Array.isArray(fields)) {
+        errors = fields.map((field) => {
+          const fieldName = String(field);
+
+          let fieldMessage = "This value is already in use.";
+
+          if (fieldName === "email") {
+            fieldMessage = "An account already exists with this email address.";
+          }
+
+          return {
+            field: fieldName,
+            message: fieldMessage,
+          };
+        });
+      }
     } else if (error.code === "P2025") {
       statusCode = 404;
       message = "The requested resource was not found.";
@@ -26,6 +58,7 @@ export const handlePrismaError = (
     return {
       statusCode,
       message,
+      ...(errors && { errors }),
     };
   }
 
