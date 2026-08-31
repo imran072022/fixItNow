@@ -8,6 +8,13 @@ export const getUserById = async (id: string) => {
     where: {
       id,
     },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      status: true,
+    },
   });
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");

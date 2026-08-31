@@ -3,7 +3,6 @@ import catchAsync from "../../utils/catchAsync";
 import { authService } from "./auth.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
-import { access } from "node:fs";
 import { AppError } from "../../errors/AppError";
 
 const registerUser = catchAsync(async (req: Request, res: Response) => {
@@ -63,8 +62,35 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+export const getMe = catchAsync(async (req: Request, res: Response) => {
+  const user = await authService.getMe(req.user.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "User information retrieved successfully",
+    data: user,
+  });
+});
+const logout = catchAsync(async (req, res: Response) => {
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    path: "/",
+  };
+  res.clearCookie("accessToken", cookieOptions);
+  res.clearCookie("refreshToken", cookieOptions);
+
+  sendResponse(res, {
+    statusCode: 200,
+    message: "Logged out successfully",
+    data: null,
+  });
+});
+
 export const authController = {
   registerUser,
   login,
   refreshToken,
+  getMe,
+  logout,
 };

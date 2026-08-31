@@ -10,6 +10,8 @@ import type {
 } from "./auth.types";
 import { signToken, verifyToken } from "../../utils/jwt";
 import { UserStatus } from "../../../prisma/generated/prisma/enums";
+import { getUserById } from "./auth.helper";
+import type { Response } from "express";
 
 const registerUser = async (payload: UserRegisterPayload) => {
   const { name, email, password, role } = payload;
@@ -108,8 +110,14 @@ const refreshToken = async (refreshToken: string) => {
   return newAccessToken;
 };
 
+const getMe = async (id: string) => {
+  const user = await getUserById(id);
+  return user;
+};
+
 export const authService = {
   registerUser,
   login,
   refreshToken,
+  getMe,
 };
