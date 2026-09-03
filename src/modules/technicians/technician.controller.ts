@@ -6,6 +6,7 @@ import httpStatus from "http-status";
 import type {
   TAvailabilitySlot,
   TGetTechnicianProfilesQuery,
+  TUpdateAvailability,
   TechnicianProfileId,
 } from "./technician.type";
 
@@ -27,6 +28,10 @@ type AvailabilityLocals = {
   validatedData: {
     body: TAvailabilitySlot;
   };
+};
+
+type UpdateAvailabilityLocals = {
+  validatedData: TUpdateAvailability;
 };
 
 const getTechnicianProfiles = catchAsync(
@@ -69,8 +74,35 @@ const setAvailability = catchAsync(
   },
 );
 
+const getMyAvailability = catchAsync(async (req: Request, res: Response) => {
+  const slots = await technicianService.getMyAvailability(req.user.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Availability slots fetched successfully",
+    data: slots,
+  });
+});
+
+const updateAvailability = catchAsync(
+  async (req: Request, res: Response<unknown, UpdateAvailabilityLocals>) => {
+    const { params, body } = res.locals.validatedData;
+    const slot = await technicianService.updateAvailability(
+      params.id,
+      body,
+      req.user.id,
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: "Availability slot updated successfully",
+      data: slot,
+    });
+  },
+);
+
 export const technicianController = {
   getTechnicianProfiles,
   getATechnicianProfile,
   setAvailability,
+  getMyAvailability,
+  updateAvailability,
 };

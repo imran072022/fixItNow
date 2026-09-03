@@ -5,6 +5,7 @@ import {
   availabilitySlotSchema,
   getTechnicianProfilesSchema,
   getTechnicianSchema,
+  updateAvailabilitySchema,
 } from "./technician.validation";
 import { authentication } from "../../middlewares/authentication";
 import { authorization } from "../../middlewares/authorization";
@@ -33,6 +34,21 @@ router.post(
   authorization("TECHNICIAN"),
   validateRequest(availabilitySlotSchema),
   technicianController.setAvailability,
+);
+
+router.get(
+  "/technicians/me/availability",
+  authentication,
+  authorization("TECHNICIAN"),
+  technicianController.getMyAvailability,
+);
+
+router.patch(
+  "/technicians/me/availability/:id",
+  authentication,
+  authorization("TECHNICIAN"),
+  validateRequest(updateAvailabilitySchema),
+  technicianController.updateAvailability,
 );
 
 export const technicianRoutes = router;

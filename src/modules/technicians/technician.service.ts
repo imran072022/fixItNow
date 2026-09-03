@@ -233,8 +233,64 @@ const setAvailability = async (payload: TAvailabilitySlot, userId: string) => {
   return slot;
 };
 
+const getMyAvailability = async (userId: string) => {
+  const profile = await prisma.technicianProfile.findUnique({
+    where: { userId },
+    select: { id: true },
+  });
+
+  if (!profile) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Technician profile doesn't exist",
+    );
+  }
+
+  return prisma.availabilitySlot.findMany({
+    where: { technicianProfileId: profile.id },
+    orderBy: [{ dayOfWeek: "asc" }, { startMinute: "asc" }],
+  });
+};
+
+const updateAvailability = async (
+  slotId: string,
+  payload: TAvailabilitySlot,
+  userId: string,
+) => {
+  const profile = await prisma.technicianProfile.findUnique({
+    where: { userId },
+    select: { id: true },
+  });
+
+  if (!profile) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Technician profile doesn't exist",
+    );
+  }
+
+  const slot = await prisma.availabilitySlot.findFirst({
+    where: {
+      id: slotId,
+      technicianProfileId: profile.id,
+    },
+    select: { id: true },
+  });
+
+  if (!slot) {
+    throw new AppError(httpStatus.NOT_FOUND, "Availability slot not found");
+  }
+
+  return prisma.availabilitySlot.update({
+    where: { id: slot.id },
+    data: payload,
+  });
+};
+
 export const technicianService = {
   getTechnicianProfiles,
   getATechnicianProfile,
   setAvailability,
+  getMyAvailability,
+  updateAvailability,
 };

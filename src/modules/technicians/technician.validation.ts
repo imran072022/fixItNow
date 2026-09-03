@@ -23,6 +23,14 @@ export const getTechnicianSchema = z.object({
     .strict(),
 });
 
+export const availabilitySlotParamSchema = z.object({
+  params: z
+    .object({
+      id: z.uuid("Invalid availability slot ID"),
+    })
+    .strict(),
+});
+
 export const availabilitySlotSchema = z.object({
   body: z
     .object({
@@ -43,4 +51,13 @@ export const availabilitySlotSchema = z.object({
       path: ["endMinute"],
     })
     .strict(),
+});
+
+export const updateAvailabilitySchema = z.object({
+  params: z
+    .object({
+      id: z.uuid("Invalid availability slot ID"),
+    })
+    .strict(),
+  body: availabilitySlotSchema.shape.body,
 });
