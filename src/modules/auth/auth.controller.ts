@@ -21,13 +21,11 @@ const login = catchAsync(async (req: Request, res: Response) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 1000 * 60 * 60,
   });
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 1000 * 60 * 60 * 24 * 7,
   });
 
   sendResponse(res, {
@@ -42,6 +40,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const refreshToken = req.cookies?.refreshToken;
+  console.log("Refresh token value:", refreshToken);
   if (!refreshToken) {
     throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing.");
   }
@@ -50,8 +49,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   res.cookie("accessToken", newAccessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
-    maxAge: 1000 * 60 * 60,
+    sameSite: "lax",
   });
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
@@ -62,7 +60,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const getMe = catchAsync(async (req: Request, res: Response) => {
+const getMe = catchAsync(async (req: Request, res: Response) => {
   const user = await authService.getMe(req.user.id);
   sendResponse(res, {
     statusCode: httpStatus.OK,

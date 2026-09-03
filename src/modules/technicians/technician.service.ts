@@ -1,6 +1,7 @@
 import type { Prisma } from "../../../prisma/generated/prisma/client";
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
+import { isTechnicianBookable } from "../../utils/isTechnicianBookable";
 import type {
   TAvailabilitySlot,
   TechnicianProfileId,
@@ -201,26 +202,9 @@ const getATechnicianProfile = async (id: TechnicianProfileId) => {
     },
   });
 
-  const isProfileComplete =
-    !!technicianProfile.user.name &&
-    !!technicianProfile.user.photoUrl &&
-    !!technicianProfile.user.phone &&
-    !!technicianProfile.dob &&
-    !!technicianProfile.location;
-
-  const hasService = technicianProfile.services.length > 0;
-
-  const hasAvailability = technicianProfile.availabilitySlots.length > 0;
-
-  const isBookable =
-    isProfileComplete &&
-    hasService &&
-    hasAvailability &&
-    !technicianProfile.isOnVacation;
-
   return {
     ...technicianProfile,
-    isBookable,
+    isBookable: isTechnicianBookable(technicianProfile),
   };
 };
 

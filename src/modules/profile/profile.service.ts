@@ -4,6 +4,7 @@ import { prisma } from "../../lib/prisma";
 import httpStatus from "http-status";
 import type { TUpdateProfile } from "./profile.type";
 import type { JwtUserPayload } from "../auth/auth.types";
+import { isTechnicianBookable } from "../../utils/isTechnicianBookable";
 
 const getMyProfile = async (userId: string) => {
   const user = await prisma.user.findUnique({
@@ -16,6 +17,7 @@ const getMyProfile = async (userId: string) => {
       email: true,
       role: true,
       photoUrl: true,
+      phone: true,
     },
   });
 
@@ -30,6 +32,7 @@ const getMyProfile = async (userId: string) => {
       },
       include: {
         availabilitySlots: true,
+        services: true,
       },
     });
 
@@ -40,12 +43,14 @@ const getMyProfile = async (userId: string) => {
     return {
       ...user,
       technicianProfile,
+      isBookable: isTechnicianBookable({ ...technicianProfile, user }),
     };
   }
 
   // CUSTOMER / ADMIN
   return user;
 };
+
 const updateMyProfile = async (
   updateProfilePayload: TUpdateProfile,
   userInfo: JwtUserPayload,
