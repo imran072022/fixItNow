@@ -83,14 +83,12 @@ const createCheckoutSession = async (userId: string, bookingId: string) => {
 };
 
 const handleStripeWebhook = async (event: Stripe.Event) => {
-  console.log("Event", event);
   switch (event.type) {
     case "checkout.session.completed":
       return handleCheckoutSessionCompleted(event);
     case "payment_intent.payment_failed":
       return handlePaymentIntentFailed(event);
     default:
-      console.log(`Unhandled Stripe event: ${event.type}`);
       return;
   }
 };

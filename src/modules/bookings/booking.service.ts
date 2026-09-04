@@ -178,24 +178,68 @@ const getAllBookings = async (userInfo: JwtUserPayload) => {
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User doesn't exist");
   }
-  const bookings =
+
+  const where =
     role === Role.ADMIN
-      ? await prisma.booking.findMany()
+      ? {}
       : role === Role.CUSTOMER
-        ? await prisma.booking.findMany({
-            where: {
-              customerId: id,
+        ? { customerId: id }
+        : {
+            technicianProfile: {
+              userId: id,
             },
-          })
-        : await prisma.booking.findMany({
-            where: {
-              technicianProfile: {
-                userId: id,
-              },
+          };
+
+  const bookings = await prisma.booking.findMany({
+    where,
+    include: {
+      service: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          price: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
             },
-          });
+          },
+        },
+      },
+      technicianProfile: {
+        select: {
+          id: true,
+          location: true,
+          experience: true,
+          isOnVacation: true,
+          ratingAverage: true,
+          reviewCount: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              phone: true,
+              photoUrl: true,
+            },
+          },
+        },
+      },
+      customer: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          photoUrl: true,
+        },
+      },
+      review: true,
+    },
+  });
   return {
-    total: bookings?.length,
+    total: bookings.length,
     bookings,
   };
 };

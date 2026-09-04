@@ -20,12 +20,12 @@ const login = catchAsync(async (req: Request, res: Response) => {
   res.cookie("accessToken", result.accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "none",
   });
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "none",
   });
 
   sendResponse(res, {
@@ -40,7 +40,6 @@ const login = catchAsync(async (req: Request, res: Response) => {
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const refreshToken = req.cookies?.refreshToken;
-  console.log("Refresh token value:", refreshToken);
   if (!refreshToken) {
     throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing.");
   }
@@ -49,7 +48,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   res.cookie("accessToken", newAccessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "none",
   });
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
@@ -72,7 +71,7 @@ const logout = catchAsync(async (req, res: Response) => {
   const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
+    sameSite: "none" as const,
     path: "/",
   };
   res.clearCookie("accessToken", cookieOptions);

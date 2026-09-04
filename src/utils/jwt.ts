@@ -16,7 +16,6 @@ export const verifyToken = (token: string, secret: string): JwtUserPayload => {
   try {
     return jwt.verify(token, secret) as JwtUserPayload;
   } catch (error) {
-    console.error(error);
     if (error instanceof jwt.TokenExpiredError) {
       throw new AppError(httpStatus.UNAUTHORIZED, "Token has expired");
     }

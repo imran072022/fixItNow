@@ -8,6 +8,7 @@ import {
   createBookingSchema,
   getBookingParamSchema,
 } from "./booking.validation";
+import { Role } from "../../../prisma/generated/prisma/enums";
 
 const router = Router();
 
@@ -15,7 +16,7 @@ const router = Router();
 router.post(
   "/bookings",
   authentication,
-  authorization("CUSTOMER"),
+  authorization(Role.CUSTOMER, Role.ADMIN, Role.TECHNICIAN),
   validateRequest(createBookingSchema),
   bookingController.createBooking,
 );
@@ -24,7 +25,7 @@ router.post(
 router.get(
   "/bookings",
   authentication,
-  authorization("ADMIN", "CUSTOMER", "TECHNICIAN"),
+  authorization(Role.ADMIN, Role.CUSTOMER, Role.TECHNICIAN),
   bookingController.getAllBookings,
 );
 
@@ -32,7 +33,7 @@ router.get(
 router.patch(
   "/bookings/:id/status",
   authentication,
-  authorization("TECHNICIAN", "CUSTOMER"),
+  authorization(Role.TECHNICIAN, Role.CUSTOMER),
   bookingController.updateBookingStatus,
 );
 
@@ -40,7 +41,7 @@ router.patch(
 router.get(
   "/bookings/:id",
   authentication,
-  authorization("CUSTOMER"),
+  authorization(Role.CUSTOMER),
   validateRequest(getBookingParamSchema),
   bookingController.getABooking,
 );

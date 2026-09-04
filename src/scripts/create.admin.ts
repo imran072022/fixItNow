@@ -13,8 +13,6 @@ async function main() {
       role: Role.ADMIN,
     },
   });
-
-  console.log("Admin created.");
 }
 
 main()
