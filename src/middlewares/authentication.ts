@@ -8,6 +8,7 @@ import catchAsync from "../utils/catchAsync";
 
 export const authentication = catchAsync(
   async (req: Request, _res: Response, next: NextFunction) => {
+    console.log("AUTH:", req.method, req.originalUrl, "cookies:", req.cookies);
     const token = req.cookies?.accessToken;
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, "You need to login first");
